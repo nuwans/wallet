@@ -83,13 +83,14 @@ class User extends Public_Controller {
 				
         // setup page header data
         $this->set_title(lang('users title login'));
-
-				$this->add_css_theme('login.css');
+		$this->add_css_theme('login.css');
 
         $data = $this->includes;
 
         // load views
+
         $data['content'] = $this->load->view('user/login', NULL, TRUE);
+        
         $this->load->view($this->template, $data);
     }
 
@@ -148,18 +149,23 @@ class User extends Public_Controller {
 				$str_1 = str_replace($placeholders, $vals_1, $rawstring);
 							
 				$this -> email -> from($this->settings->site_email, $this->settings->site_name);
-				$this->email->to($this->input->post('email', TRUE));
+                echo $this->settings->site_email;
+                $this->email->to($this->input->post('email', TRUE));
+                echo $this->input->post('email');
+                 
 				//$this -> email -> to($user['email']);
 				$this -> email -> subject($email_template['title']);
-
-				$this -> email -> message($str_1);
-
-				$this->email->send();
-
+                
+                $this -> email -> message($str_1);
+                echo print_r($this -> email);
+                $this->email->send();
+                $result1=$this->email->send();
+                echo $result1;
+/* 
                 $this->session->language = $this->input->post('language');
                 $this->lang->load('users', $this->user['language']);
                 $this->session->set_flashdata('message', sprintf(lang('users msg register_success'), $this->input->post('first_name', TRUE)));
-				redirect(site_url('login'));
+				redirect(site_url('login')); */
             }
             else
             {
@@ -170,7 +176,8 @@ class User extends Public_Controller {
         }
 
         // setup page header data
-        $this->set_title( lang('users title register') );
+       
+        $this->set_title(lang('users title register'));
 
         $data = $this->includes;
 

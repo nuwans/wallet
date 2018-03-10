@@ -57,7 +57,7 @@
 						<p class="text-center"><?php echo lang('core main deposit_text'); ?></p>
 					</div>
 			</div>
-			<div class="row margin-top-35">
+			<!-- <div class="row margin-top-35">
 					<div class="col-md-4">
 						<img class="center-block" src="<?php echo base_url();?>themes/default/img/lock.png">
 						<h4  class="text-center"><?php echo lang('core main protect'); ?></h4>
@@ -73,13 +73,13 @@
 						<h4  class="text-center"><?php echo lang('core main api'); ?></h4>
 						<p class="text-center"><?php echo lang('core main api_text'); ?></p>
 					</div>
-			</div>
+			</div> -->
 			<div class="row margin-top-35">
-					<div class="col-md-4">
+					<!-- <div class="col-md-4">
 						<img class="center-block" src="<?php echo base_url();?>themes/default/img/payment.png">
 						<h4  class="text-center"><?php echo lang('core main payment'); ?></h4>
 						<p class="text-center"><?php echo lang('core main payment_text'); ?></p>
-					</div>
+					</div> -->
 					<div class="col-md-4">
 						<img class="center-block" src="<?php echo base_url();?>themes/default/img/sms.png">
 						<h4  class="text-center"><?php echo lang('core main sms'); ?></h4>

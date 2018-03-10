@@ -100,6 +100,7 @@ $lang['users menu request']                   = "Request payment";
 $lang['users menu acceptance']                = "Acceptance payments";
 $lang['users menu support']                   = "Support";
 $lang['users menu settings']                  = "Account settings";
+$lang['users menu benificiary']               = "Benificiarys";
 
 // Dashboard
 $lang['users dashboard ballance']             = "Available ballance";
@@ -328,6 +329,65 @@ $lang['users merchants comment']             = "Comment for administration";
 $lang['users merchants send']                = "Send for moderation";
 $lang['users merchants success']             = "Request has been sent! We will take a decision within 2-3 business days!";
 // Merchants ====================================================================================
+
+
+// Benificiaries ====================================================================================
+$lang['users benificiaries pay']                 = "Pay order"; //
+$lang['users benificiaries btc_address']         = "BTC address"; //
+$lang['users benificiaries btc_order']           = "Order is awaiting transfer for the amount of"; //
+$lang['users benificiaries btc_total']           = "You will receive to your account"; //
+$lang['users benificiaries btc_completed']       = "after the transaction is completed"; //
+$lang['users benificiaries btc_warning']         = "Up to six network confirmations may be required to complete the operation."; //
+$lang['users benificiaries html']                = "HTML Form generator"; //
+$lang['users benificiaries all']                 = "All benificiaries";
+$lang['users benificiaries id']                  = "Merchant ID"; //
+$lang['users benificiaries item']                = "Item name"; //
+$lang['users benificiaries order']               = "Order number"; //
+$lang['users benificiaries price']               = "Price"; //
+$lang['users benificiaries custom']              = "Custom"; //
+$lang['users benificiaries form']                = "Example HTML form"; //
+$lang['users benificiaries generate']            = "Generate!"; //
+$lang['users benificiaries copy']                = "Copy the form code and place it on your website."; //
+$lang['users benificiaries pay']                 = "Pay order"; //
+$lang['users benificiaries btc_address']         = "BTC address"; //
+$lang['users benificiaries btc_order']           = "Order is awaiting transfer for the amount of"; //
+$lang['users benificiaries btc_total']           = "You will receive to your account"; //
+$lang['users benificiaries btc_completed']       = "after the transaction is completed"; //
+$lang['users benificiaries btc_warning']         = "Up to six network confirmations may be required to complete the operation."; //
+$lang['users benificiaries html']                = "HTML Form generator"; //
+$lang['users benificiaries all']                 = "All benificiaries";
+$lang['users benificiaries id']                  = "Merchant ID"; //
+$lang['users benificiaries item']                = "Item name"; //
+$lang['users benificiaries order']               = "Order number"; //
+$lang['users benificiaries price']               = "Price"; //
+$lang['users benificiaries custom']              = "Custom"; //
+$lang['users benificiaries form']                = "Example HTML form"; //
+$lang['users benificiaries generate']            = "Generate!"; //
+$lang['users benificiaries copy']                = "Copy the form code and place it on your website."; //
+$lang['users benificiaries create']              = "Create new benificiary";
+$lang['users benificiaries name']                = "Name";
+$lang['users benificiaries fname']               = "First Name";
+$lang['users benificiaries lname']               = "Last Name";
+$lang['users benificiaries address1']             = "Address 1";
+$lang['users benificiaries address2']            = "Address 2";
+$lang['users benificiaries city']                = "City";
+$lang['users benificiaries state']               = "State";
+$lang['users benificiaries phone']               = "Phone Number";
+$lang['users benificiaries account']             = "Account Number";
+$lang['users benificiaries bank_code']           = "Bank Code";
+$lang['users benificiaries url']                 = "URL site";
+$lang['users benificiaries ipn']                 = "Status IPN link";
+$lang['users benificiaries active']              = "Active";
+$lang['users benificiaries moderation']          = "Moderation";
+$lang['users benificiaries disapproved']         = "Disapproved";
+$lang['users benificiaries test']                = "Test payment form";
+$lang['users benificiaries detail']              = "Detail merchant";
+$lang['users benificiaries password']            = "Merchant password";
+$lang['users benificiaries new']                 = "New merchant";
+$lang['users benificiaries comment']             = "Comment for administration";
+$lang['users benificiaries send']                = "Send for moderation";
+$lang['users benificiaries success']             = "Request has been sent! We will take a decision within 2-3 business days!";
+// Benificiaries ====================================================================================
 
 
 // Errors

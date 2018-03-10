@@ -2,10 +2,10 @@
 
     <div class="row">
       <div class="col-md-6">
-         <h4 class="title"><?php echo lang('users merchants all'); ?></h4>
+         <h4 class="title"><?php echo lang('users benificiaries all'); ?></h4>
       </div>
       <div class="col-md-6">
-        <a href="../account/new_merchant" class="btn btn-primary pull-right"><i class="icon-plus icons"></i> <?php echo lang('users merchants create'); ?></a>
+        <a href="../account/new_beneficiary" class="btn btn-primary pull-right"><i class="icon-plus icons"></i> <?php echo lang('users benificiaries create'); ?></a>
       </div>
     </div>
     
@@ -13,8 +13,8 @@
       <table class="table table-hover">
         <thead>
           <th><?php echo lang('users trans id'); ?></th>
-          <th><?php echo lang('users merchants name'); ?></th>
-          <th><?php echo lang('users merchants url'); ?></th>
+          <th><?php echo lang('users benificiaries name'); ?></th>
+          <th><?php echo lang('users benificiaries url'); ?></th>
           <th><?php echo lang('users trans status'); ?></th>
           <th></th>
           <th></th>
@@ -27,15 +27,15 @@
                <td><?php echo $view['name']; ?></td>
                <td><?php echo $view['link']; ?></td>
                <td><?if($view['status']==1){?>
-                  <span class="label label-success"><?php echo lang('users merchants active'); ?></span>
+                  <span class="label label-success"><?php echo lang('users benificiaries active'); ?></span>
                  <?}else{?>
                  <?}?>
                  <?if($view['status']==2){?>
-                  <span class="label label-warning"><?php echo lang('users merchants moderation'); ?></span>
+                  <span class="label label-warning"><?php echo lang('users benificiaries moderation'); ?></span>
                  <?}else{?>
                  <?}?>
                  <?if($view['status']==3){?>
-                  <span class="label label-danger"><?php echo lang('users merchants disapproved'); ?></span>
+                  <span class="label label-danger"><?php echo lang('users benificiaries disapproved'); ?></span>
                  <?}else{?>
                  <?}?></td>
                <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="icon-magic-wand icons"></i></button></td>
@@ -75,7 +75,7 @@
                <input type="text" class="form-control" name="id_merch" id="id_merch">
             </div>
             <div class="form-group">
-               <label><?php echo lang('users merchants item'); ?>*</label>
+               <label><?php echo lang('users benificiaries item'); ?>*</label>
                <input type="text" class="form-control" name="item_name" id="item_name">
             </div>
             <div class="form-group">
@@ -93,7 +93,7 @@
           </div>
           <div class="col-md-7">
             <div class="form-group">
-               <label><?php echo lang('users merchants form'); ?></label>
+               <label><?php echo lang('users benificiaries form'); ?></label>
                <textarea class="form-control" name="html" id="resultat" rows="8" disabled><form method="POST" action="<?php echo base_url();?>SCI/form">
   <input type="hidden" name="order" value="134543" />
   <input type="hidden" name="merchant" value="#" />
@@ -102,7 +102,7 @@
   <input type="hidden" name="custom" value="comment" />
   <button type="submit"><?php echo lang('users merchants test'); ?></button>
 </form></textarea>
-            <p class="help-block"><?php echo lang('users merchants copy'); ?></p>
+            <p class="help-block"><?php echo lang('users benificiaries copy'); ?></p>
             </div>
           </div>
         </div>

@@ -24,6 +24,7 @@ class Account extends Private_Controller {
 		$this->load->model('verification_model');
 		$this->load->model('merchants_model');
 		$this->load->model('vouchers_model');
+		$this->load->model('benificiary_model');
 		$this->lang->load('currency');
 		$this->load->library('commission');
 		$this->load->library('email');
@@ -3446,6 +3447,179 @@ class Account extends Private_Controller {
 		
 		}
 		
+	}
+
+
+    /**
+    * List benificiaries
+    */
+	function beneficiaries()
+	{
+		$user = $this->users_model->get_user($this->user['id']);
+		
+		$username = $user['username'];
+		
+		// get parameters
+        $limit  = $this->input->get('limit')  ? $this->input->get('limit', TRUE)  : DEFAULT_LIMIT;
+        $offset = $this->input->get('offset') ? $this->input->get('offset', TRUE) : DEFAULT_OFFSET;
+        $sort   = $this->input->get('sort')   ? $this->input->get('sort', TRUE)   : DEFAULT_SORT;
+        $dir    = $this->input->get('dir')    ? $this->input->get('dir', TRUE)    : DEFAULT_DIR;
+		
+		// get filters
+        $filters = array();
+			
+		if ($this->input->get('id'))
+        {
+            $id_xss = $this->security->xss_clean($this->input->get('id'));
+						$id_string = str_replace(' ', '-', $id_xss);
+						$id_replace = preg_replace('/[^A-Za-z0-9\-]/', '', $id_string);
+            $filters['id'] = $id_replace;
+        }
+		
+		// build filter string
+        $filter = "";
+        foreach ($filters as $key => $value)
+        {
+            $filter .= "&{$key}={$value}";
+        }
+			
+		// are filters being submitted?
+        if ($this->input->post())
+        {
+            if ($this->input->post('clear'))
+            {
+                // reset button clicked
+                redirect(THIS_URL);
+            }
+            else
+            {
+                // apply the filter(s)
+                $filter = "";
+
+                if ($this->input->post('id'))
+                {
+                    $filter .= "&id=" . $this->input->post('id', TRUE);
+                }
+
+            // redirect using new filter(s)
+            redirect(THIS_URL_4 . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
+
+            }
+					
+			$merchant = $this->merchants_model->get_list_merchants($limit, $offset, $filters, $sort, $dir, $username);
+				
+		}
+		
+        // setup page header data
+        $this->set_title(sprintf(lang('users menu acceptance'), $this->settings->site_name));
+		// reload the new user data and store in session
+
+        $data = $this->includes;
+					
+		$merchant = $this->merchants_model->get_list_merchants($limit, $offset, $filters, $sort, $dir, $username);
+		
+		$user = $this->users_model->get_user($this->user['id']);
+					
+		// build pagination
+		$this->pagination->initialize(array(
+			'base_url'   => THIS_URL_4 . "?sort={$sort}&dir={$dir}&limit={$limit}{$filter}",
+			'total_rows' => $merchant['total'],
+			'per_page'   => $limit
+		));
+			
+		// set content data
+        $content_data = array(
+			'user'       => $user,
+			'username'   => $username,
+            'this_url'   => THIS_URL_4,
+            'merchant'   => $merchant['results'],
+            'total'    	 => $merchant['total'],
+            'filters'    => $filters,
+            'filter'     => $filter,
+            'pagination' => $this->pagination->create_links(),
+            'limit'      => $limit,
+            'offset'     => $offset,
+            'sort'       => $sort,
+            'dir'        => $dir
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/beneficiaries', $content_data, TRUE);
+		$this->load->view($this->template, $data);
+    }
+    
+    /**
+	* New benificiari
+    */
+	function new_beneficiary()
+	{
+		// setup page header data
+        $this->set_title(sprintf(lang('users benificiaries new'), $this->settings->site_name));
+		// reload the new user data and store in session
+        $user = $this->users_model->get_user($this->user['id']);
+
+        $data = $this->includes;
+
+        // set content data
+        $content_data = array(
+			'user'    => $user,
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/new_beneficiary', $content_data, TRUE);
+		$this->load->view($this->template, $data);
+	}
+	
+	/**
+    * Start form BENIFICIARY
+    */
+	function start_beneficiary()
+	{
+		$user = $this->users_model->get_user($this->user['id']);
+			
+		if ($user['verifi_status']==2) {
+			
+			$this->form_validation->set_rules('name', lang('users transfer amount'), 'required|trim');
+			$this->form_validation->set_rules('url', lang('users transfer amount'), 'required|trim|valid_url');
+			$this->form_validation->set_rules('ipn', lang('users transfer amount'), 'required|trim|valid_url');
+			$this->form_validation->set_rules('password', lang('users transfer amount'), 'required|trim');
+			$this->form_validation->set_rules('comment', lang('users transfer amount'), 'trim|max_length[300]');
+			
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->session->set_flashdata('error', lang('users error form'));
+				redirect(site_url("account/new_merchant"));
+			}
+			else
+			{
+			
+				$name = $this->input->post("name");
+				$url = $this->input->post("url");
+				$ipn = $this->input->post("ipn");
+				$password = $this->input->post("password");
+				$comment = $this->input->post("comment");
+
+				$merchant = $this->merchants_model->add_merchant(array(
+					"date"   		=> date('Y-m-d H:i:s'),
+					"link"   		=> $url,
+					"status_link"   => $ipn,
+					"password"   	=> $password,
+					"name"   		=> $name,
+					"status"   		=> "2",
+					"user"   		=> $user['username'],
+					"comment"  		=> $comment,
+					)
+				);
+
+				$this->session->set_flashdata('message', lang('users tickets success_new'));
+				redirect(site_url('account/merchants'));
+			}
+			
+		} else {
+    		$this->session->set_flashdata('error', lang('users withdrawal error'));
+			redirect(site_url("account/merchants"));
+		}
+
 	}
 
 	

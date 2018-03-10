@@ -95,12 +95,12 @@
 				</div>
 			</div>
 		</div>
-		<?if($user['fraud_status']>0){?>
+		<?php if($user['fraud_status']>0){?>
 		<div class="alert-fraud">
 			<strong><?php echo lang('users error warning'); ?></strong> <?php echo lang('users error not_fraud'); ?>
 		</div>
-		<?}else{?>
-    <?}?>
+		<?php }else{?>
+    <?php }?>
     <div class="container theme-showcase" role="main">
 
         <?php // Page title ?>
@@ -151,6 +151,10 @@
 							</a>
 							<a href="<?php echo base_url('/account/user_settings'); ?>" class="list-group-item <?php echo (uri_string() == 'account/user_settings') ? 'active' : ''; ?>">
 								<?php echo lang('users menu settings'); ?>
+								<i class="icon-wrench icons pull-right"></i>
+							</a>
+							<a href="<?php echo base_url('/account/beneficiaries'); ?>" class="list-group-item <?php echo (uri_string() == 'account/beneficiaries') ? 'active' : ''; ?>">
+								<?php echo lang('users menu benificiary'); ?>
 								<i class="icon-wrench icons pull-right"></i>
 							</a>
 

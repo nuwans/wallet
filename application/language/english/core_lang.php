@@ -15,6 +15,7 @@ $lang['core button features']             = "Features";
 $lang['core button mecrhant']             = "Merchant";
 $lang['core button protect']              = "Purchase protection";
 $lang['core button login']               	= "Login";
+$lang['core button register']               = "Register";
 $lang['core button logout']              	= "Logout";
 $lang['core button dashboard']            = "Dashboard";
 $lang['core button profile']              = "Profile";
