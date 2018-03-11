@@ -15,10 +15,11 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="row">
+              
               <div class="col-md-6">
                  <div class="form-group">
                     <label><?php echo lang('users benificiaries fname'); ?></label>
-                    <input type="text" class="form-control" name="first_name">
+                    <input type="text" class="form-control"  value="<?php echo set_value('first_name'); ?>" name="first_name">
                   </div>
               </div>
               <div class="col-md-6">
@@ -60,7 +61,7 @@
               <div class="col-md-6">
                  <div class="form-group">
                     <label><?php echo lang('users benificiaries account'); ?></label>
-                    <input type="text" class="form-control" name="account_nuber">
+                    <input type="text" class="form-control" name="account_number">
                   </div>
               </div>
               <div class="col-md-6">

@@ -13,33 +13,27 @@
       <table class="table table-hover">
         <thead>
           <th><?php echo lang('users trans id'); ?></th>
-          <th><?php echo lang('users benificiaries name'); ?></th>
-          <th><?php echo lang('users benificiaries url'); ?></th>
-          <th><?php echo lang('users trans status'); ?></th>
-          <th></th>
-          <th></th>
+          <th><?php echo lang('users benificiaries fname'); ?></th>
+          <th><?php echo lang('users benificiaries lname'); ?></th>
+          <th><?php echo lang('users benificiaries phone'); ?></th>
+          <th><?php echo lang('users benificiaries account'); ?></th>
+          <th><?php echo lang('users benificiaries edit'); ?></th>
+          <th><?php echo lang('users benificiaries details'); ?></th>
+          <th><?php echo lang('users benificiaries delete'); ?></th>
         </thead>
          <tbody>
           <?php if ($total) : ?>
-            <?php foreach ($merchant as $view) : ?>
+            <?php foreach ($beneficiary as $view) : ?>
             <tr>
               <td><?php echo $view['id']; ?></td>
-               <td><?php echo $view['name']; ?></td>
-               <td><?php echo $view['link']; ?></td>
-               <td><?if($view['status']==1){?>
-                  <span class="label label-success"><?php echo lang('users benificiaries active'); ?></span>
-                 <?}else{?>
-                 <?}?>
-                 <?if($view['status']==2){?>
-                  <span class="label label-warning"><?php echo lang('users benificiaries moderation'); ?></span>
-                 <?}else{?>
-                 <?}?>
-                 <?if($view['status']==3){?>
-                  <span class="label label-danger"><?php echo lang('users benificiaries disapproved'); ?></span>
-                 <?}else{?>
-                 <?}?></td>
-               <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="icon-magic-wand icons"></i></button></td>
-               <td><a href="/account/detail_merchant/<?php echo $view['id']; ?>" class="btn btn-default btn-block"><?php echo lang('users trans detail'); ?></a></td>
+               <td><?php echo $view['first_name']; ?></td>
+               <td><?php echo $view['last_name']; ?></td>
+               <td><?php echo $view['phone']; ?></td>
+               <td><?php echo $view['account_number']; ?></td>
+               <!-- <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="icon-magic-wand icons"></i></button></td> -->
+               <td><a href="../account/detail_beneficiary/<?php echo $view['id']; ?>/edit" class="btn btn-default btn-block"><?php echo lang('users benificiaries edit'); ?></a></td>
+               <td><a href="../account/detail_beneficiary/<?php echo $view['id']; ?>/view" class="btn btn-default btn-block"><?php echo lang('users trans detail'); ?></a></td>
+               <td><a href="../account/detail_beneficiary/<?php echo $view['id']; ?>/delete" class="btn btn-danger"><?php echo lang('users benificiaries delete'); ?></a></td>
             </tr>
           
           <?php endforeach; ?>

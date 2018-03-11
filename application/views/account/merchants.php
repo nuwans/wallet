@@ -39,7 +39,7 @@
                  <?}else{?>
                  <?}?></td>
                <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="icon-magic-wand icons"></i></button></td>
-               <td><a href="/account/detail_merchant/<?php echo $view['id']; ?>" class="btn btn-default btn-block"><?php echo lang('users trans detail'); ?></a></td>
+               <td><a href="../account/detail_merchant/<?php echo $view['id']; ?>" class="btn btn-default btn-block"><?php echo lang('users trans detail'); ?></a></td>
             </tr>
           
           <?php endforeach; ?>

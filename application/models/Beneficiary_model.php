@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Benificiary_model extends CI_Model {
+class Beneficiary_model extends CI_Model {
 
     /**
      * @vars
@@ -15,7 +15,7 @@ class Benificiary_model extends CI_Model {
         parent::__construct();
 
         // define primary table
-        $this->_db = 'benificiaries';
+        $this->_db = 'beneficiaries';
     }
 	
 	function get_all($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC')
@@ -186,7 +186,7 @@ class Benificiary_model extends CI_Model {
         return $results;
     }
 	
-	function get_list_merchants($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC', $user = NULL)
+	function get_list_beneficiaries($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC', $user = NULL)
     {
         $sql = "
             SELECT SQL_CALC_FOUND_ROWS *
@@ -228,7 +228,7 @@ class Benificiary_model extends CI_Model {
         return $results;
     }
 	
-	function get_detail_merchants($id = NULL, $username = NULL)
+	function get_detail_beneficiaries($id = NULL, $username = NULL)
     {
         if ($id)
         {
@@ -291,9 +291,9 @@ class Benificiary_model extends CI_Model {
         return FALSE;
     }
 	
-	function add_merchant($data) 
+	function add_benificiary($data) 
 		{
-			$this->db->insert("merchants", $data);
+			$this->db->insert("beneficiaries", $data);
 			return $this->db->insert_id();
 		}
 	
@@ -319,25 +319,27 @@ class Benificiary_model extends CI_Model {
     }
 	
 	/**
-     * Edit ticket
+     * Edit beneficiary
      *
      * @param  array $data
      * @return boolean
      */
-    function edit_merchant($data = array())
+    function edit_benificiary($data = array())
     {
         if ($data)
         {
             $sql = "
                 UPDATE {$this->_db}
                 SET
-                    date = " . $this->db->escape($data['date']) . ",
-										link = " . $this->db->escape($data['link']) . ",
-										password = " . $this->db->escape($data['password']) . ",
-										status_link = " . $this->db->escape($data['status_link']) . ",
-										comment = " . $this->db->escape($data['comment']) . ",
-										name = " . $this->db->escape($data['name']) . ",
-										user = " . $this->db->escape($data['user']) . "
+										first_name = " . $this->db->escape($data['first_name']) . ",
+										last_name = " . $this->db->escape($data['last_name']) . ",
+										address1 = " . $this->db->escape($data['address1']) . ",
+										address2 = " . $this->db->escape($data['address2']) . ",
+										city = " . $this->db->escape($data['city']) . ",
+										state = " . $this->db->escape($data['state']) . ",
+										phone = " . $this->db->escape($data['phone']) . ",
+										account_number = " . $this->db->escape($data['account_number']) . ",
+										bank_code = " . $this->db->escape($data['bank_code']) . "
                 WHERE id = " . $this->db->escape($data['id']) . "
             ";
 
@@ -346,6 +348,34 @@ class Benificiary_model extends CI_Model {
             if ($this->db->affected_rows())
             {
                 return TRUE;
+            }
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Delete beneficiary
+     *
+     * @param  array $data
+     * @return boolean
+     */
+    function delete_benificiary($data = array())
+    {
+        if ($data)
+        {
+            $sql = "
+                DELETE FROM {$this->_db}
+				WHERE id = " . $this->db->escape($data['id']) ." 
+                AND   user=". $this->db->escape($data['username']) ."
+            ";
+            $query =$this->db->query($sql);
+
+            if ($query)
+            {
+                return TRUE;
+            } else{
+                return FALSE;
             }
         }
 

@@ -327,6 +327,8 @@ $lang['users merchants password']            = "Merchant password";
 $lang['users merchants new']                 = "New merchant";
 $lang['users merchants comment']             = "Comment for administration";
 $lang['users merchants send']                = "Send for moderation";
+$lang['users merchants update_success']      = "Merchant has been updated successfully";
+$lang['users merchants delete_success']      = "Merchant has been deleted successfully";
 $lang['users merchants success']             = "Request has been sent! We will take a decision within 2-3 business days!";
 // Merchants ====================================================================================
 
@@ -339,7 +341,10 @@ $lang['users benificiaries btc_total']           = "You will receive to your acc
 $lang['users benificiaries btc_completed']       = "after the transaction is completed"; //
 $lang['users benificiaries btc_warning']         = "Up to six network confirmations may be required to complete the operation."; //
 $lang['users benificiaries html']                = "HTML Form generator"; //
-$lang['users benificiaries all']                 = "All benificiaries";
+$lang['users benificiaries all']                 = "All beneficiaries";
+$lang['users benificiaries details']             = "Beneficiary details";
+$lang['users benificiaries delete']             = "Delete";
+$lang['users benificiaries page']                 = "Beneficiaries";
 $lang['users benificiaries id']                  = "Merchant ID"; //
 $lang['users benificiaries item']                = "Item name"; //
 $lang['users benificiaries order']               = "Order number"; //
@@ -375,6 +380,8 @@ $lang['users benificiaries state']               = "State";
 $lang['users benificiaries phone']               = "Phone Number";
 $lang['users benificiaries account']             = "Account Number";
 $lang['users benificiaries bank_code']           = "Bank Code";
+$lang['users benificiaries edit']           = "Edit";
+$lang['users benificiaries delete']           = "Delete";
 $lang['users benificiaries url']                 = "URL site";
 $lang['users benificiaries ipn']                 = "Status IPN link";
 $lang['users benificiaries active']              = "Active";
@@ -386,7 +393,9 @@ $lang['users benificiaries password']            = "Merchant password";
 $lang['users benificiaries new']                 = "New merchant";
 $lang['users benificiaries comment']             = "Comment for administration";
 $lang['users benificiaries send']                = "Send for moderation";
+$lang['users benificiaries save']                = "Save";
 $lang['users benificiaries success']             = "Request has been sent! We will take a decision within 2-3 business days!";
+$lang['users benificiaries delete_success']        = "Beneficiary deleteted successfully!";
 // Benificiaries ====================================================================================
 
 
@@ -407,6 +416,7 @@ $lang['users error validate_failed']          = "There was a problem validating 
 $lang['users error too_many_login_attempts']  = "You've made too many attempts to log in too quickly. Please wait %s seconds and try again.";
 $lang['users error fraud']                    = "Sorry, you can not complete this operation. Please contact support for clarification";
 $lang['users error form']                     = "Please provide correct data about the transfer";
+$lang['users error form_beneficiary']         = "Please provide correct data about the Benificiary";
 $lang['users error wallet']                   = "Sorry, not enough funds to perform the operation";
 //################################################################################################
 $lang['users error warning']                  = "Warning!";

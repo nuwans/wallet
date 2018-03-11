@@ -24,7 +24,7 @@ class Account extends Private_Controller {
 		$this->load->model('verification_model');
 		$this->load->model('merchants_model');
 		$this->load->model('vouchers_model');
-		$this->load->model('benificiary_model');
+		$this->load->model('beneficiary_model');
 		$this->lang->load('currency');
 		$this->load->library('commission');
 		$this->load->library('email');
@@ -35,6 +35,7 @@ class Account extends Private_Controller {
 		define('THIS_URL_2', base_url('account/dispute'));
 		define('THIS_URL_3', base_url('account/tickets'));
 		define('THIS_URL_4', base_url('account/merchants'));
+		define('THIS_URL_5', base_url('account/beneficiaries'));
         define('DEFAULT_LIMIT', $this->settings->per_page_limit);
         define('DEFAULT_OFFSET', 0);
         define('DEFAULT_SORT', "id");
@@ -3506,24 +3507,24 @@ class Account extends Private_Controller {
 
             }
 					
-			$merchant = $this->merchants_model->get_list_merchants($limit, $offset, $filters, $sort, $dir, $username);
+			$beneficiary = $this->beneficiary_model->get_list_beneficiaries($limit, $offset, $filters, $sort, $dir, $username);
 				
 		}
 		
         // setup page header data
-        $this->set_title(sprintf(lang('users menu acceptance'), $this->settings->site_name));
+        $this->set_title(sprintf(lang('users benificiaries page'), $this->settings->site_name));
 		// reload the new user data and store in session
 
         $data = $this->includes;
 					
-		$merchant = $this->merchants_model->get_list_merchants($limit, $offset, $filters, $sort, $dir, $username);
+		$beneficiary = $this->beneficiary_model->get_list_beneficiaries($limit, $offset, $filters, $sort, $dir, $username);
 		
 		$user = $this->users_model->get_user($this->user['id']);
 					
 		// build pagination
 		$this->pagination->initialize(array(
 			'base_url'   => THIS_URL_4 . "?sort={$sort}&dir={$dir}&limit={$limit}{$filter}",
-			'total_rows' => $merchant['total'],
+			'total_rows' => $beneficiary['total'],
 			'per_page'   => $limit
 		));
 			
@@ -3532,8 +3533,8 @@ class Account extends Private_Controller {
 			'user'       => $user,
 			'username'   => $username,
             'this_url'   => THIS_URL_4,
-            'merchant'   => $merchant['results'],
-            'total'    	 => $merchant['total'],
+            'beneficiary'   => $beneficiary['results'],
+            'total'    	 => $beneficiary['total'],
             'filters'    => $filters,
             'filter'     => $filter,
             'pagination' => $this->pagination->create_links(),
@@ -3554,7 +3555,7 @@ class Account extends Private_Controller {
 	function new_beneficiary()
 	{
 		// setup page header data
-        $this->set_title(sprintf(lang('users benificiaries new'), $this->settings->site_name));
+        $this->set_title(sprintf(lang('users merchants new'), $this->settings->site_name));
 		// reload the new user data and store in session
         $user = $this->users_model->get_user($this->user['id']);
 
@@ -3579,47 +3580,176 @@ class Account extends Private_Controller {
 			
 		if ($user['verifi_status']==2) {
 			
-			$this->form_validation->set_rules('name', lang('users transfer amount'), 'required|trim');
-			$this->form_validation->set_rules('url', lang('users transfer amount'), 'required|trim|valid_url');
-			$this->form_validation->set_rules('ipn', lang('users transfer amount'), 'required|trim|valid_url');
-			$this->form_validation->set_rules('password', lang('users transfer amount'), 'required|trim');
-			$this->form_validation->set_rules('comment', lang('users transfer amount'), 'trim|max_length[300]');
-			
+			$this->form_validation->set_rules('first_name', lang('users benificiaries fname'), 'required|trim');
+			$this->form_validation->set_rules('last_name', lang('users benificiaries lname'), 'required|trim');
+			$this->form_validation->set_rules('address1', lang('users benificiaries address1'), 'required');
+			$this->form_validation->set_rules('address2', lang('users benificiaries address1'), 'required');
+			$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
+			$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
+			$this->form_validation->set_rules('phone', lang('users benificiaries phone'), 'required|trim');
+			$this->form_validation->set_rules('account_number', lang('users benificiaries account'), 'required|trim');
+			$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'), 'required|trim');
+
 			if ($this->form_validation->run() == FALSE)
-			{
-				$this->session->set_flashdata('error', lang('users error form'));
-				redirect(site_url("account/new_merchant"));
+			{  
+				$this->session->set_flashdata('error', lang('users error form_beneficiary'));
+				redirect(site_url("account/new_beneficiary"));
 			}
 			else
 			{
 			
-				$name = $this->input->post("name");
-				$url = $this->input->post("url");
-				$ipn = $this->input->post("ipn");
-				$password = $this->input->post("password");
-				$comment = $this->input->post("comment");
+				$fname = $this->input->post("first_name");
+				$lname = $this->input->post("last_name");
+				$address1 = $this->input->post("address1");
+				$address2 = $this->input->post("address2");
+				$city = $this->input->post("city");
+				$state = $this->input->post("state");
+				$phone = $this->input->post("phone");
+				$account = $this->input->post("account_number");
+				$bank_code = $this->input->post("bank_code");
 
-				$merchant = $this->merchants_model->add_merchant(array(
+				$beneficiary = $this->beneficiary_model->add_benificiary(array(
 					"date"   		=> date('Y-m-d H:i:s'),
-					"link"   		=> $url,
-					"status_link"   => $ipn,
-					"password"   	=> $password,
-					"name"   		=> $name,
-					"status"   		=> "2",
+					"first_name"   	=> $fname,
+					"last_name"     => $lname,
+					"address1"      => $address1,
+					"address2"      => $address2,
+					"city"          => $city,
+					"state"         => $state,
+					"phone"         => $phone,
+					"account_number" => $account,
+					"bank_code" => $bank_code,
 					"user"   		=> $user['username'],
-					"comment"  		=> $comment,
 					)
 				);
 
 				$this->session->set_flashdata('message', lang('users tickets success_new'));
-				redirect(site_url('account/merchants'));
+				redirect(site_url('account/beneficiaries'));
 			}
 			
 		} else {
     		$this->session->set_flashdata('error', lang('users withdrawal error'));
-			redirect(site_url("account/merchants"));
+			redirect(site_url("account/beneficiaries"));
 		}
 
+	}
+   
+
+    /* Benificiary details   */
+
+    function detail_beneficiary($id = NULL,$type=NULL)
+    {
+		$user = $this->users_model->get_user($this->user['id']);
+			
+        // make sure we have a numeric id
+        if (is_null($id) OR ! is_numeric($id))
+        {
+            redirect(THIS_URL_2);
+        }
+
+        // get the data
+        $beneficiary = $this->beneficiary_model->get_detail_beneficiaries($id, $user['username']);
+
+        // if empty results, return to list
+        if ( ! $beneficiary)
+        {
+            redirect(THIS_URL_5);
+        }
+
+        // setup page header data
+        $this->set_title( lang('users benificiaries details') );
+
+        $data = $this->includes;
+        // set content data
+        $content_data = array(
+			'this_url'   		=> THIS_URL_5,
+			'user'              => $user,
+            'cancel_url'        => THIS_URL_5,
+            'beneficiary'      	=> $beneficiary,
+            'beneficiary_id'   	=> $id,
+            'type'           =>    $type,
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/detail_beneficiary', $content_data, TRUE);
+        $this->load->view($this->template, $data);
+    }
+
+    /* Edit benificiaries */
+    function edit_beneficiary($id=NULL)
+	{
+		$user = $this->users_model->get_user($this->user['id']);
+		if ($user['verifi_status']==2) {
+			$this->form_validation->set_rules('first_name', lang('users benificiaries fname'), 'required|trim');
+			$this->form_validation->set_rules('last_name', lang('users benificiaries lname'), 'required|trim');
+			$this->form_validation->set_rules('address1', lang('users benificiaries address1'), 'required');
+			$this->form_validation->set_rules('address2', lang('users benificiaries address1'), 'required');
+			$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
+			$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
+			$this->form_validation->set_rules('phone', lang('users benificiaries phone'), 'required|trim');
+			$this->form_validation->set_rules('account_number', lang('users benificiaries account'), 'required|trim');
+			$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'), 'required|trim');
+
+			if ($this->form_validation->run() == FALSE)
+			{  
+				$this->session->set_flashdata('error', lang('users error form_beneficiary'));
+                redirect(site_url("account/detail_beneficiary/"+$id));
+			}
+			else
+			{
+			
+				$fname = $this->input->post("first_name");
+				$lname = $this->input->post("last_name");
+				$address1 = $this->input->post("address1");
+				$address2 = $this->input->post("address2");
+				$city = $this->input->post("city");
+				$state = $this->input->post("state");
+				$phone = $this->input->post("phone");
+				$account = $this->input->post("account_number");
+				$bank_code = $this->input->post("bank_code");
+
+				$beneficiary = $this->beneficiary_model->edit_benificiary(array(
+					"first_name"   	=> $fname,
+					"last_name"     => $lname,
+					"address1"      => $address1,
+					"address2"      => $address2,
+					"city"          => $city,
+					"state"         => $state,
+					"phone"         => $phone,
+                    "account_number" => $account,
+                    "bank_code" => $bank_code,
+                    "id"=> $id,
+					)
+				);
+				$this->session->set_flashdata('message', lang('users merchants update_success'));
+                redirect(site_url('account/beneficiaries'));
+			}
+			
+		} else {
+    		$this->session->set_flashdata('error', lang('users withdrawal error'));
+			redirect(site_url("account/beneficiaries"));
+		}
+    }
+    
+    /* Delete benificiaries */
+    function delete_beneficiary($id=NULL)
+	{
+        $user = $this->users_model->get_user($this->user['id']);
+        echo $user["username"];
+        echo $user["verifi_status"];
+		if ($user['verifi_status']==2) {
+				$beneficiary = $this->beneficiary_model->delete_benificiary(array(
+					"username"   	=> $user["username"],
+                    "id"=> $id,
+					)
+                );
+				$this->session->set_flashdata('message', lang('users benificiaries delete_success'));
+                redirect(site_url('account/beneficiaries'));
+			
+		} else {
+    		$this->session->set_flashdata('error', lang('users withdrawal error'));
+			redirect(site_url("account/beneficiaries"));
+		}  
 	}
 
 	

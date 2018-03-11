@@ -16,7 +16,7 @@
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>themes/default/css/bootstrap.css">
 	<link rel="stylesheet" href="<?php echo base_url();?>themes/default/css/default.css">
-	<link rel="stylesheet" href="<?php echo base_url();?>themes/default/css/lofin.css">
+	<link rel="stylesheet" href="<?php echo base_url();?>themes/default/css/login.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
