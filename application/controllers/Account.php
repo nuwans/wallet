@@ -1709,17 +1709,20 @@ class Account extends Private_Controller {
         $this->set_title(sprintf(lang('users title money_transfer'), $this->settings->site_name));
 		// reload the new user data and store in session
         $user = $this->users_model->get_user($this->user['id']);
+        $beneficiaries = $this->beneficiary_model->get_my_beneficiaries($this->user['username']);
 		$percent = $this->settings->com_transfer;
 		$fee = $this->settings->com_transfer/"100";
 				
         $data = $this->includes;
-
+        
         // set content data
         $content_data = array(
 			'user'          => $user,
 			'percent'     	=> $percent,
-			'fee'     		=> $fee,
+            'fee'     		=> $fee,
+            'beneficiaries' => $beneficiaries,
         );
+        //echo(json_encode($content_data));
 
         // load views
         $data['content'] = $this->load->view('account/money_transfer', $content_data, TRUE);
@@ -1745,11 +1748,12 @@ class Account extends Private_Controller {
 			elseif ($user['fraud_status']==0) {
 					
 				$this->form_validation->set_rules('amount', lang('users transfer amount'), 'required|trim|numeric|greater_than[0]');
-				$this->form_validation->set_rules('receiver', lang('users transfer amount'), 'required|trim|callback__check_username[]');
+				//$this->form_validation->set_rules('receiver', lang('users transfer amount'), 'required|trim|callback__check_username[]');
+				$this->form_validation->set_rules('beneficiary', lang('users transfer amount'), 'required|trim|callback__check_beneficiary['+$user["username"]+']');
 				$this->form_validation->set_rules('currency', lang('users transfer amount'), 'required|trim|in_list[debit_base,debit_extra1,debit_extra2,debit_extra3,debit_extra4,debit_extra5]');
 					
 				if ($this->form_validation->run() == FALSE)
-					{
+					{    
 						$this->session->set_flashdata('error', lang('users error form'));
 						redirect(site_url("account/money_transfer"));
 					}
@@ -1758,11 +1762,13 @@ class Account extends Private_Controller {
 							
 					$amount = $this->input->post("amount");
 					$currency = $this->input->post("currency");
-					$receiver = $this->input->post("receiver");
+					//$receiver = $this->input->post("receiver");
+					$beneficiary = $this->input->post("beneficiary");
 					$note = $this->input->post("note");
 
-					$user_receiver = $this->users_model->get_user_transfer($receiver);
-							
+					$user_receiver = $this->beneficiary_model->get_user_beneficiary($beneficiary);
+            
+                    var_dump($user_receiver);
 					$percent = $this->settings->com_transfer/"100";
 					$fee = $amount*$percent;
 					$sum = $fee+$amount;
@@ -1771,28 +1777,28 @@ class Account extends Private_Controller {
 					$total_sender = $user[$currency]-$sum;
 								
 					// Check wallet
-					if ($user[$currency]<$sum) {
+					/* if ($user[$currency]<$sum) {
 
 						$this->session->set_flashdata('error', lang('users error wallet'));
 						redirect(site_url("account/money_transfer"));
 
-					}
+					} */
 
-					elseif ($user[$currency]>$sum) {
+					/* elseif ($user[$currency]>$sum) { */
 
 						// update receiver wallet
-						$this->users_model->update_wallet_transfer($receiver,
+						/* $this->beneficiary_model->update_wallet_transfer($beneficiary,
 							array(
 								$currency => $total_receiver,
 								)
-							);
+							); */
 
 						// update sender wallet
-						$this->users_model->update_wallet_transfer($user['username'],
+						$var1=$this->users_model->update_wallet_transfer($user['username'],
 						array(
 							$currency => $total_sender,
 							)
-						);
+                        ); 
 								
 						// add transaction for sender
 						$transactions = $this->transactions_model->add_transaction(array(
@@ -1801,9 +1807,9 @@ class Account extends Private_Controller {
 							"fee"    			=> $fee,
 							"amount" 			=> $amount,
 							"currency"			=> $currency,
-							"status" 			=> "2",
+							"status" 			=> "1",
 							"sender" 			=> $user['username'],
-							"receiver" 			=> $user_receiver['username'],
+							"receiver" 			=> $user_receiver['id'],
 							"time"          	=> date('Y-m-d H:i:s'),
 							"user_comment"  	=> $note,
 							"admin_comment" 	=> "none"
@@ -1846,7 +1852,7 @@ class Account extends Private_Controller {
 						 // what will we replace
 						$placeholders = array('[SITE_NAME]', '[SUM]', '[CYR]', '[URL_HISTORY]', '[RECEIVER]');
 
-						$vals_1 = array($site_name, $mail_sum, $this->currencys->display->base_code, $link, $user_receiver['username']);
+						$vals_1 = array($site_name, $mail_sum, $this->currencys->display->base_code, $link, $user_receiver['first_name']);
 
 						//replace
 						$str_1 = str_replace($placeholders, $vals_1, $rawstring);
@@ -1855,46 +1861,6 @@ class Account extends Private_Controller {
 						$this->email->to(
 							array($user['email'])
 						);
-
-						$this -> email -> subject($email_template['title']);
-
-						$this -> email -> message($str_1);
-
-						$this->email->send();
-								
-
-						// variables to replace
-						if ($currency=="debit_base") {
-							$mail_cyr = $this->currencys->display->base_code;
-						} elseif ($currency=="debit_extra1") {
-							$mail_cyr = $this->currencys->display->extra1_code;
-						} elseif ($currency=="debit_extra2") {
-							$mail_cyr = $this->currencys->display->extra2_code;
-						} elseif ($currency=="debit_extra3") {
-							$mail_cyr = $this->currencys->display->extra3_code;
-						} elseif ($currency=="debit_extra4") {
-							$mail_cyr = $this->currencys->display->extra4_code;
-						} elseif ($currency=="debit_extra5") {
-							$mail_cyr = $this->currencys->display->extra5_code;
-						} 
-
-						$link = site_url('account/history/');
-						$site_name = $this->settings->site_name;
-
-						$rawstring = $email_template['message'];
-
-						// what will we replace
-						$placeholders = array('[SITE_NAME]', '[URL_HISTORY]', '[SUM]', '[CYR]');
-
-						$vals_1 = array($site_name, $link, $sum, $mail_cyr);
-
-						//replace
-						$str_1 = str_replace($placeholders, $vals_1, $rawstring);
-
-						$this -> email -> from($this->settings->site_email, $this->settings->site_name);
-						$this->email->to(
-							array($user['email'])
-							);
 
 						$this -> email -> subject($email_template['title']);
 
@@ -2018,7 +1984,7 @@ class Account extends Private_Controller {
 						$this->session->set_flashdata('message', lang('users transfer success'));
 						redirect(site_url("account/history"));
 
-					}
+					/* } */
 				}
 					
 			}
@@ -3587,6 +3553,7 @@ class Account extends Private_Controller {
 			$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
 			$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
 			$this->form_validation->set_rules('phone', lang('users benificiaries phone'), 'required|trim');
+			$this->form_validation->set_rules('email', lang('users benificiaries email'), 'required|trim');
 			$this->form_validation->set_rules('account_number', lang('users benificiaries account'), 'required|trim');
 			$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'), 'required|trim');
 
@@ -3607,6 +3574,7 @@ class Account extends Private_Controller {
 				$phone = $this->input->post("phone");
 				$account = $this->input->post("account_number");
 				$bank_code = $this->input->post("bank_code");
+				$email = $this->input->post("email");
 
 				$beneficiary = $this->beneficiary_model->add_benificiary(array(
 					"date"   		=> date('Y-m-d H:i:s'),
@@ -3615,7 +3583,8 @@ class Account extends Private_Controller {
 					"address1"      => $address1,
 					"address2"      => $address2,
 					"city"          => $city,
-					"state"         => $state,
+                    "state"         => $state,
+                    "email"         =>$email,
 					"phone"         => $phone,
 					"account_number" => $account,
 					"bank_code" => $bank_code,
@@ -3682,6 +3651,7 @@ class Account extends Private_Controller {
 		if ($user['verifi_status']==2) {
 			$this->form_validation->set_rules('first_name', lang('users benificiaries fname'), 'required|trim');
 			$this->form_validation->set_rules('last_name', lang('users benificiaries lname'), 'required|trim');
+			$this->form_validation->set_rules('email', lang('users benificiaries email'), 'required|trim');
 			$this->form_validation->set_rules('address1', lang('users benificiaries address1'), 'required');
 			$this->form_validation->set_rules('address2', lang('users benificiaries address1'), 'required');
 			$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
@@ -3700,6 +3670,7 @@ class Account extends Private_Controller {
 			
 				$fname = $this->input->post("first_name");
 				$lname = $this->input->post("last_name");
+				$email = $this->input->post("email");
 				$address1 = $this->input->post("address1");
 				$address2 = $this->input->post("address2");
 				$city = $this->input->post("city");
@@ -3714,7 +3685,8 @@ class Account extends Private_Controller {
 					"address1"      => $address1,
 					"address2"      => $address2,
 					"city"          => $city,
-					"state"         => $state,
+                    "state"         => $state,
+                    "email"         => $email,
 					"phone"         => $phone,
                     "account_number" => $account,
                     "bank_code" => $bank_code,
@@ -3770,6 +3742,28 @@ class Account extends Private_Controller {
         if (trim($username) != trim($current) && $this->users_model->username_exists($username))
         {
             $this->form_validation->set_message('_check_username', sprintf(lang('users error username_exists'), $username));
+						return $username;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    /**
+     * Make sure beneficiary is available
+     *
+     * @param  string $benificiary
+     * @param  string|null $current
+     * @return int|boolean
+     */
+    function _check_beneficiary($username, $current)
+    {
+        echo $username;
+        echo $current;
+        if (trim($username) != trim($current) && $this->beneficiary_model->benificiary_exists($username,$current))
+        {
+            $this->form_validation->set_message('_check_benificiary', sprintf(lang('users error username_exists'), $username));
 						return $username;
         }
         else

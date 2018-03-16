@@ -92,10 +92,10 @@
     <tbody>
     <?php foreach($history->result() as $view) : ?>
       <tr>
-        <td><?php echo $view->id ?></td>
-        <td> <i class="icon-clock icons"></i> <?php echo $view->time ?></td>
+        <td><?= $view->id ?></td>
+        <td> <i class="icon-clock icons"></i> <?php echo $view->time;  echo $view->sender ?></td>
         <td>
-          <?if($view->sender == "system"){?>
+          <? if($view->sender == "system"){?>
             <img src="<?php echo base_url();?>themes/default/img/icon/fiat.png" class="img-circle" rel='tooltip' title="<?php echo $view->sender; ?>">
           <?}elseif($view->sender == "PayPal"){?>
             <img src="<?php echo base_url();?>themes/default/img/icon/paypal.png" class="img-circle" rel='tooltip' title="<?php echo $view->sender; ?>">

@@ -29,6 +29,7 @@ class User extends Public_Controller {
     */
     function index() {}
 
+   
 
     /**
     * Validate login credentials
@@ -106,6 +107,19 @@ class User extends Public_Controller {
         redirect('login');
     }
 
+    function ee()
+    {
+        $this->email->to("nuwansameerait@gmail.com");
+        $this -> email -> message("Dkamdkmkm");
+        $this->email->from('tradeseasy742@gmail.com', 'tradeseasy742@gmail.com');
+        $this->email->subject('Test email from CI and Gmail');
+        $this->email->message('This is a test.');
+        $this->email->send();
+        $var1= $this->email->send();
+        echo $var1;
+        echo "SDS";
+    }
+
 
     /**
      * Registration Form
@@ -149,23 +163,20 @@ class User extends Public_Controller {
 				$str_1 = str_replace($placeholders, $vals_1, $rawstring);
 							
 				$this -> email -> from($this->settings->site_email, $this->settings->site_name);
-                echo $this->settings->site_email;
+               // echo $this->settings->site_email;
                 $this->email->to($this->input->post('email', TRUE));
-                echo $this->input->post('email');
+                //echo $this->input->post('email');
                  
 				//$this -> email -> to($user['email']);
 				$this -> email -> subject($email_template['title']);
                 
                 $this -> email -> message($str_1);
-                echo print_r($this -> email);
+                //echo print_r($this -> email);
                 $this->email->send();
-                $result1=$this->email->send();
-                echo $result1;
-/* 
                 $this->session->language = $this->input->post('language');
                 $this->lang->load('users', $this->user['language']);
                 $this->session->set_flashdata('message', sprintf(lang('users msg register_success'), $this->input->post('first_name', TRUE)));
-				redirect(site_url('login')); */
+				redirect(site_url('login')); 
             }
             else
             {

@@ -223,6 +223,7 @@ $lang['users transfer amount']                = "Amount trasfer";
 $lang['users transfer sum']                   = "Fee";
 $lang['users transfer help_com']              = "With commission";
 $lang['users transfer receiver']              = "Username receiver";
+$lang['users transfer beneficiary']              = "Username beneficiary";
 $lang['users transfer send']                  = "Send money";
 $lang['users transfer success']               = "Money transfer was successfully completed!";
 
@@ -373,6 +374,7 @@ $lang['users benificiaries create']              = "Create new benificiary";
 $lang['users benificiaries name']                = "Name";
 $lang['users benificiaries fname']               = "First Name";
 $lang['users benificiaries lname']               = "Last Name";
+$lang['users benificiaries email']               = "Email";
 $lang['users benificiaries address1']             = "Address 1";
 $lang['users benificiaries address2']            = "Address 2";
 $lang['users benificiaries city']                = "City";

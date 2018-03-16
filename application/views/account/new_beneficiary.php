@@ -30,6 +30,12 @@
               </div>
               <div class="col-md-6">
                  <div class="form-group">
+                    <label><?php echo lang('users benificiaries email'); ?></label>
+                    <input type="text" class="form-control" name="email">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                 <div class="form-group">
                     <label><?php echo lang('users benificiaries address1'); ?></label>
                     <input type="text" class="form-control" name="address1">
                   </div>

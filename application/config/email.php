@@ -13,7 +13,8 @@ $config['smtp_host'] = 'ssl://smtp.googlemail.com';
 $config['smtp_port'] = '465';
 $config['smtp_user'] = 'tradeseasy742@gmail.com';
 $config['smtp_pass'] = 'easyadmin';
-$config['charset'] = 'utf8';
+$config['starttls'] = TRUE;
+$config['newline'] = "\r\n";
 $config['mailtype'] = 'html';
 $config['wordwrap'] = TRUE;
 

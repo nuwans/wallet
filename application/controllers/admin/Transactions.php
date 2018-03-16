@@ -22,9 +22,11 @@ class Transactions extends Admin_Controller {
         $this->load->model('transactions_model');
 		$this->load->model('disputes_model');
 		$this->load->model('users_model');
+		$this->load->model('beneficiary_model');
 		$this->load->model('transactions_model');
-		$this->load->model('emailtemplate_model');
-			
+        $this->load->model('emailtemplate_model');
+        $this->load->model('smstemplate_model');
+		
 		// set constants
         define('REFERRER', "referrer");
         define('THIS_URL', base_url('admin/transactions'));
@@ -1278,13 +1280,13 @@ class Transactions extends Admin_Controller {
 	function start_confirm($id)
 	{
 		// get the data
-    $transactions = $this->transactions_model->get_transactions($id);
-		$user = $this->users_model->get_user_mail($transactions['receiver']);
-		
-		$wallet = $transactions['currency'];
+        $transactions = $this->transactions_model->get_transactions($id);
+		$user = $this->beneficiary_model->get_user_beneficiary($transactions['receiver']);
+        $wallet = $transactions['currency'];
+        $currency=$wallet;
 		// Calculation of the amount to be credited to the claimant 
-		$return = $user[$wallet]+$transactions['sum'];
-		
+        $return = $user[$wallet]+$transactions['amount'];
+        $total_from_user=$transactions['sum'];
 		if ($transactions['status'] != 2)
 		{
 		
@@ -1293,24 +1295,66 @@ class Transactions extends Admin_Controller {
 			array(
 				"status"   	 => "2",
 			)
+		); 
+        // update claimant wallet
+        $this->beneficiary_model->update_wallet_transfer($transactions['receiver'],
+							array(
+								$transactions['currency']  => $return,
+								)
 		);
 		
-		// update claimant wallet
-		$this->users_model->update_user($transactions['receiver'],
-			array(
-				$transactions['currency']  => $return,
-				)
-			);
-		
-		
-		
+        if ($currency=="debit_base") {
+            $mail_cyr = $this->currencys->display->base_code;
+        } elseif ($currency=="debit_extra1") {
+            $mail_cyr = $this->currencys->display->extra1_code;
+        } elseif ($currency=="debit_extra2") {
+            $mail_cyr = $this->currencys->display->extra2_code;
+        } elseif ($currency=="debit_extra3") {
+            $mail_cyr = $this->currencys->display->extra3_code;
+        } elseif ($currency=="debit_extra4") {
+            $mail_cyr = $this->currencys->display->extra4_code;
+        } elseif ($currency=="debit_extra5") {
+            $mail_cyr = $this->currencys->display->extra5_code;
+        }
+        $sms_template = $this->smstemplate_model->get_sms_template(15);
+        if($sms_template['enable']) {					
+            $rawstring = $sms_template['message'];
+
+            // what will we replace
+            $placeholders = array('[SUM_1]', '[CYR_1]', '[USER_FNAME]');
+
+            $vals_1 = array($transactions['amount'], $mail_cyr, $user['first_name']);
+
+            //replace
+            $str_1 = str_replace($placeholders, $vals_1, $rawstring);
+            echo $str_1;        
+            // Twilio user number
+            $to = '+'.$user['phone'];
+            // Your Account SID and Auth Token from twilio.com/console
+            $sid = $this->settings->twilio_sid;
+            $token = $this->settings->twilio_token;
+            $client = new Twilio\Rest\Client($sid, $token);
+
+            // Use the client to do fun stuff like send text messages!
+            $client->messages->create(
+            // the number you'd like to send the message to
+            $to,
+                array(
+                    // A Twilio phone number you purchased at twilio.com/console
+                    'from' => '+'.$this->settings->twilio_number,
+                    // the body of the text message you'd like to send
+                    'body' => $str_1
+                )
+            );
+
+        }
 		$this->session->set_flashdata('message', lang('admin trans success_confirm'));
-		redirect(site_url("admin/transactions"));
-			
+		//redirect(site_url("admin/transactions")); */
+        
 		}else{
 			$this->session->set_flashdata('error', lang('users error form'));
 			redirect(site_url("admin/transactions"));
-		}
+		} 
 		
 	}
 	
@@ -1321,14 +1365,14 @@ class Transactions extends Admin_Controller {
 	{
 		// get the data
     $transactions = $this->transactions_model->get_transactions($id);
-		$user2 = $this->users_model->get_user_mail($transactions['receiver']);
+        $user2 = $this->beneficiary_model->get_user_beneficiary($transactions['receiver']);
 		$user = $this->users_model->get_user_mail($transactions['sender']);
 		
 		$wallet = $transactions['currency'];
 		// Calculation of the amount to be credited to the claimant 
 		$return = $user[$wallet]+$transactions['sum'];
 		
-		$return2 = $user2[$wallet]-$transactions['sum'];
+		$return2 = $user2[$wallet]-$transactions['amount'];
 		
 		if ($transactions['status'] != 3)
 		{
@@ -1347,15 +1391,12 @@ class Transactions extends Admin_Controller {
 				)
 			);
 			
-		// update sender wallet
-		$this->users_model->update_user($transactions['receiver'],
-			array(
-				$transactions['currency']  => $return2,
-				)
-			);
-		
-		
-		
+        // update sender wallet
+        $this->beneficiary_model->update_wallet_transfer($transactions['receiver'],
+                array(
+                    $transactions['currency']  => $return2,
+                    )
+        );		
 		$this->session->set_flashdata('message', lang('admin trans success_refund'));
 		redirect(site_url("admin/transactions"));
 			

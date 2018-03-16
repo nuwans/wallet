@@ -57,6 +57,12 @@
               </div>
               <div class="col-md-6">
                  <div class="form-group">
+                    <label><?php echo lang('users benificiaries email'); ?></label>
+                    <input type="text" <?php echo $disabled?> class="form-control"  value="<?php echo $beneficiary['email'] ; ?>" name="email">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                 <div class="form-group">
                     <label><?php echo lang('users benificiaries address1'); ?></label>
                     <input type="text" <?php echo $disabled?> class="form-control"  value="<?php echo $beneficiary['address1'] ; ?>" name="address1">
                   </div>

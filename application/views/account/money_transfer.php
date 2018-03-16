@@ -71,10 +71,21 @@
                   </div>
               </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <!-- <div class="form-group">
                     <label><?php echo lang('users transfer receiver'); ?></label>
                     <input type="text" class="form-control" name="receiver">
-                  </div>
+               </div> -->
+              <div class="form-group">
+                    <label><?php echo lang('users transfer beneficiary'); ?></label>
+                    <select class="form-control" name="beneficiary">
+                    <?php foreach ($beneficiaries as $ben): ?>
+                        <option value="<?php echo $ben["id"]; ?>">
+                        <?php echo $ben["first_name"]; ?>
+                        <?php echo $ben["last_name"]; ?>
+                        </option>
+                    <?php endforeach; ?>
+                    </select>
+               </div>
               <div class="form-group">
                     <label><?php echo lang('users reqest note'); ?></label>
                     <textarea class="form-control" rows="5" name="note"></textarea>

@@ -15,6 +15,7 @@
           <th><?php echo lang('users trans id'); ?></th>
           <th><?php echo lang('users benificiaries fname'); ?></th>
           <th><?php echo lang('users benificiaries lname'); ?></th>
+          <th><?php echo lang('users benificiaries email'); ?></th>
           <th><?php echo lang('users benificiaries phone'); ?></th>
           <th><?php echo lang('users benificiaries account'); ?></th>
           <th><?php echo lang('users benificiaries edit'); ?></th>
@@ -28,6 +29,7 @@
               <td><?php echo $view['id']; ?></td>
                <td><?php echo $view['first_name']; ?></td>
                <td><?php echo $view['last_name']; ?></td>
+               <td><?php echo $view['email']; ?></td>
                <td><?php echo $view['phone']; ?></td>
                <td><?php echo $view['account_number']; ?></td>
                <!-- <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="icon-magic-wand icons"></i></button></td> -->

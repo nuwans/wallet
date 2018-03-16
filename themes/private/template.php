@@ -133,14 +133,14 @@
 								<?php echo lang('users menu dispute'); ?>
 								<i class="icon-shield icons pull-right"></i>
 							</a>
-							<a href="<?php echo base_url('/account/request'); ?>" class="list-group-item <?php echo (uri_string() == 'account/request') ? 'active' : ''; ?>">
+							 <a href="<?php echo base_url('/account/request'); ?>" class="list-group-item <?php echo (uri_string() == 'account/request') ? 'active' : ''; ?>">
 								<?php echo lang('users menu request'); ?>
 								<i class="icon-briefcase icons pull-right"></i>
 							</a>
 							<a href="<?php echo base_url('/account/merchants'); ?>" class="list-group-item <?php echo (uri_string() == 'account/merchants') ? 'active' : ''; ?>">
 								<?php echo lang('users menu acceptance'); ?>
 								<i class="icon-credit-card icons pull-right"></i>
-							</a>
+							</a> 
 							<a href="<?php echo base_url('/account/vouchers'); ?>" class="list-group-item <?php echo (uri_string() == 'account/vouchers') ? 'active' : ''; ?>">
 								<?php echo lang('users vouchers menu'); ?>
 								<i class="icon-diamond icons pull-right"></i>

@@ -248,8 +248,9 @@ class Beneficiary_model extends CI_Model {
 
         return FALSE;
     }	
-	
-	function get_user_merchant($id = NULL)
+    
+    /* get beeficiary  details   */
+	function get_user_beneficiary($id = NULL)
     {
         if ($id)
         {
@@ -269,6 +270,10 @@ class Beneficiary_model extends CI_Model {
 
         return FALSE;
     }
+    /* update beneficiaries  wallet */
+    function update_wallet_transfer($username, $data) {
+		$this->db->where("id", $username)->update("beneficiaries", $data);
+	}
 	
 	function get_user_merchant_user($user = NULL)
     {
@@ -296,22 +301,23 @@ class Beneficiary_model extends CI_Model {
 			$this->db->insert("beneficiaries", $data);
 			return $this->db->insert_id();
 		}
-	
-	function get_merchants($id = NULL)
+    
+        /* Get all  benificiaries  added  by user */
+	function get_my_beneficiaries($id = NULL)
     {
         if ($id)
         {
             $sql = "
                 SELECT *
                 FROM {$this->_db}
-                WHERE id = " . $this->db->escape($id) . "
+                WHERE user = " . $this->db->escape($id) . "
             ";
 
             $query = $this->db->query($sql);
 
-            if ($query->num_rows())
-            {
-                return $query->row_array();
+            if ($query->num_rows()>0)
+            {    
+                return $query->result_array();
             }
         }
 
@@ -333,6 +339,7 @@ class Beneficiary_model extends CI_Model {
                 SET
 										first_name = " . $this->db->escape($data['first_name']) . ",
 										last_name = " . $this->db->escape($data['last_name']) . ",
+										email = " . $this->db->escape($data['email']) . ",
 										address1 = " . $this->db->escape($data['address1']) . ",
 										address2 = " . $this->db->escape($data['address2']) . ",
 										city = " . $this->db->escape($data['city']) . ",
@@ -377,6 +384,32 @@ class Beneficiary_model extends CI_Model {
             } else{
                 return FALSE;
             }
+        }
+
+        return FALSE;
+    }
+
+     /**
+     * Check to see if a benificiary  exists
+     *
+     * @param  string $username
+     * @return boolean
+     */
+    function benificiary_exists($username,$added_by)
+    {
+        $sql = "
+            SELECT id
+            FROM {$this->_db}
+            WHERE id = " . $this->db->escape($username) . "
+            AND user=". $this->db->escape($added_by) ."
+            LIMIT 1
+        ";
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows())
+        {
+            return TRUE;
         }
 
         return FALSE;
