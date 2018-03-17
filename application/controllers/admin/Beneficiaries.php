@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users extends Admin_Controller {
+class Beneficiaries extends Admin_Controller {
 
     /**
      * @var string
@@ -20,17 +20,17 @@ class Users extends Admin_Controller {
 
         // load the users model
         $this->load->model('users_model');
+        $this->load->model('beneficiary_model');
 		$this->load->model('transactions_model');
 		$this->load->library('currencys');
 
         // set constants
         define('REFERRER', "referrer");
-        define('THIS_URL', base_url('admin/users'));
+        define('THIS_URL', base_url('admin/beneficiaries'));
         define('DEFAULT_LIMIT', $this->settings->per_page_limit);
         define('DEFAULT_OFFSET', 0);
         define('DEFAULT_SORT', "last_name");
         define('DEFAULT_DIR', "asc");
-
         // use the url in session (if available) to return to the previous filter/sorted/paginated list
         if ($this->session->userdata(REFERRER))
         {
@@ -62,12 +62,12 @@ class Users extends Admin_Controller {
         // get filters
         $filters = array();
 
-        if ($this->input->get('username'))
+        if ($this->input->get('user'))
         {
-						$username_xss = $this->security->xss_clean($this->input->get('username'));
+						$username_xss = $this->security->xss_clean($this->input->get('user'));
 						$username_string = str_replace(' ', '-', $username_xss);
 						$username_replace = preg_replace('/[^A-Za-z0-9\-]/', '', $username_string);
-            $filters['username'] = $username_replace;
+            $filters['user'] = $username_replace;
         }
 
         if ($this->input->get('first_name'))
@@ -111,7 +111,7 @@ class Users extends Admin_Controller {
 
                 if ($this->input->post('username'))
                 {
-                    $filter .= "&username=" . $this->input->post('username', TRUE);
+                    $filter .= "&user=" . $this->input->post('user', TRUE);
                 }
 
                 if ($this->input->post('first_name'))
@@ -130,7 +130,7 @@ class Users extends Admin_Controller {
         }
 
         // get list
-        $users = $this->users_model->get_all($limit, $offset, $filters, $sort, $dir);
+        $users = $this->beneficiary_model->get_all($limit, $offset, $filters, $sort, $dir);
 				// get list
         // build pagination
         $this->pagination->initialize(array(
@@ -142,7 +142,7 @@ class Users extends Admin_Controller {
         // setup page header data
 		$this
 			->add_js_theme( "users_i18n.js", TRUE )
-			->set_title( lang('users title user_list') );
+			->set_title( lang('users title beneficiary_list') );
 
         $data = $this->includes;
 
@@ -161,35 +161,63 @@ class Users extends Admin_Controller {
         );
 
         // load views
-        $data['content'] = $this->load->view('admin/users/list', $content_data, TRUE);
+        $data['content'] = $this->load->view('admin/beneficiaries/list', $content_data, TRUE);
         $this->load->view($this->template, $data);
     }
 
 
     /**
-     * Add new user
+     * Add new beneficiary for  user
      */
     function add()
     {
         // validators
         $this->form_validation->set_error_delimiters($this->config->item('error_delimeter_left'), $this->config->item('error_delimeter_right'));
-        $this->form_validation->set_rules('username', lang('users input username'), 'required|trim|min_length[5]|max_length[30]|callback__check_username[]');
+        $this->form_validation->set_rules('username', lang('users input for'), 'required|trim|callback__check_username_is_valid[]');
         $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
-        $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email|callback__check_email[]');
-        $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
-        $this->form_validation->set_rules('status', lang('users input status'), 'required|numeric');
+        $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email');
+        $this->form_validation->set_rules('phone', lang('users input phone'), 'required|numeric');
+        $this->form_validation->set_rules('address1', lang('users benificiaries address1'), 'required');
+		$this->form_validation->set_rules('address2', lang('users benificiaries address1'), 'required');
+		$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
+		$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
+			
+		$this->form_validation->set_rules('account_number', lang('users benificiaries account'));
+		$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'));
 		$this->form_validation->set_rules('phone', lang('users input phone'), 'required|numeric');
-        $this->form_validation->set_rules('is_admin', lang('users input is_admin'), 'required|numeric');
-		$this->form_validation->set_rules('verifi_status', lang('users input verifi_status'), 'required|numeric');
-		$this->form_validation->set_rules('fraud_status', lang('users input fraud_status'), 'required|numeric');
-        $this->form_validation->set_rules('password', lang('users input password'), 'required|trim|min_length[5]');
-        $this->form_validation->set_rules('password_repeat', lang('users input password_repeat'), 'required|trim|matches[password]');
-
         if ($this->form_validation->run() == TRUE)
         {
+
+                 $fname = $this->input->post("first_name");
+				$lname = $this->input->post("last_name");
+				$address1 = $this->input->post("address1");
+				$address2 = $this->input->post("address2");
+				$city = $this->input->post("city");
+				$state = $this->input->post("state");
+				$phone = $this->input->post("phone");
+				$account = $this->input->post("account_number");
+				$bank_code = $this->input->post("bank_code");
+				$email = $this->input->post("email");
+                $user = $this->input->post("username");
+                
+                $saved = $this->beneficiary_model->add_benificiary(array(
+					"date"   		=> date('Y-m-d H:i:s'),
+					"first_name"   	=> $fname,
+					"last_name"     => $lname,
+					"address1"      => $address1,
+					"address2"      => $address2,
+					"city"          => $city,
+                    "state"         => $state,
+                    "email"         =>$email,
+					"phone"         => $phone,
+					"account_number" => $account,
+					"bank_code" => $bank_code,
+					"user"   		=> $user,
+					)
+				);
             // save the new user
-            $saved = $this->users_model->add_user($this->input->post());
+            //$saved = $this->users_model->add_user($this->input->post());
 
             if ($saved)
             {
@@ -205,7 +233,7 @@ class Users extends Admin_Controller {
         }
 
         // setup page header data
-        $this->set_title( lang('users title user_add') );
+        $this->set_title( lang('users title beneficiary_add') );
 
         $data = $this->includes;
 
@@ -217,7 +245,7 @@ class Users extends Admin_Controller {
         );
 
         // load views
-        $data['content'] = $this->load->view('admin/users/add', $content_data, TRUE);
+        $data['content'] = $this->load->view('admin/beneficiaries/add', $content_data, TRUE);
         $this->load->view($this->template, $data);
     }
 
@@ -236,7 +264,7 @@ class Users extends Admin_Controller {
         }
 
         // get the data
-        $user = $this->users_model->get_user($id);
+        $user = $this->beneficiary_model->get_user_beneficiary($id);
         // if empty results, return to list
         if ( ! $user)
         {
@@ -245,35 +273,25 @@ class Users extends Admin_Controller {
 
         // validators
         $this->form_validation->set_error_delimiters($this->config->item('error_delimeter_left'), $this->config->item('error_delimeter_right'));
-        $this->form_validation->set_rules('username', lang('users input username'), 'required|trim|min_length[5]|max_length[30]|callback__check_username[' . $user['username'] . ']');
+        $this->form_validation->set_rules('user', lang('users input added_by'), 'required|trim');
+        $this->form_validation->set_rules('id', lang('users input id'), 'required|trim');
         $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
-        $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email|callback__check_email[' . $user['email'] . ']');
-        $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
-        $this->form_validation->set_rules('status', lang('users input status'), 'required|numeric');
+        $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email');
 		$this->form_validation->set_rules('phone', lang('users input phone'), 'required|numeric');
-		$this->form_validation->set_rules('debit_base', lang('users input debit_base'), 'required|numeric');
+		 $this->form_validation->set_rules('debit_base', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra1', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra2', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra3', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra4', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra5', lang('users input debit_base'), 'required|numeric');
-        $this->form_validation->set_rules('is_admin', lang('users input is_admin'), 'required|numeric');
-		$this->form_validation->set_rules('verifi_status', lang('users input verifi_status'), 'required|numeric');
-		$this->form_validation->set_rules('fraud_status', lang('users input fraud_status'), 'required|numeric');
-        $this->form_validation->set_rules('password', lang('users input password'), 'min_length[5]|matches[password_repeat]');
-        $this->form_validation->set_rules('password_repeat', lang('users input password_repeat'), 'matches[password]');
 			
-		$log_user = $this->users_model->get_log_user($user['username']);
-		$log_user_mail = $this->users_model->get_log_user_mail($user['email']);
-		$log_transactions = $this->users_model->get_log_transactions($user['username']);
-		$log_transactions_in = $this->users_model->get_log_transactions_in($user['username']);
-		$log_verify = $this->users_model->get_log_doc($user['username']);
+		$log_transactions_in = $this->users_model->get_log_transactions_in($user["id"]);
 
         if ($this->form_validation->run() == TRUE)
         {
             // save the changes
-            $saved = $this->users_model->edit_user($this->input->post());
+            $saved = $this->beneficiary_model->edit_user($this->input->post());
 
             if ($saved)
             {
@@ -292,21 +310,17 @@ class Users extends Admin_Controller {
         $this->set_title( lang('users title user_edit') );
 
         $data = $this->includes;
-
         // set content data
         $content_data = array(
             'cancel_url'             => $this->_redirect_url,
             'user'                   => $user,
-			'log_user'               => $log_user,
-			'log_user_mail'          => $log_user_mail,
-			'log_verify'             => $log_verify,
-			'log_transactions'       => $log_transactions,
 			'log_transactions_in'    => $log_transactions_in,
             'user_id'                => $id,
             'password_required'      => FALSE
         );
+
         // load views
-         $data['content'] = $this->load->view('admin/users/form', $content_data, TRUE);
+        $data['content'] = $this->load->view('admin/beneficiaries/form', $content_data, TRUE);
         $this->load->view($this->template, $data); 
     }	
 	
@@ -549,6 +563,19 @@ class Users extends Admin_Controller {
         else
         {
             return $username;
+        }
+    }
+    function _check_username_is_valid($username, $current)
+    {
+        if (trim($username) != trim($current) && $this->users_model->username_exists($username))
+        {
+
+            return $username;
+        }
+        else
+        {   
+            $this->form_validation->set_message('_check_username_is_valid', sprintf(lang('users error username_doesent_exists'), $username));
+            return FALSE;
         }
     }
 

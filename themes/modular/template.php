@@ -80,6 +80,17 @@
                                 </a> </li>
                                     </ul>
                                 </li>
+                                <li class="<?php echo (strstr(uri_string(), 'admin/beneficiaries')) ? 'active open' : ''; ?>">
+                                    <a href=""> <i class="icon-people icons"></i> <?php echo lang('admin button beneficiaries'); ?> <i class="fa arrow"></i> </a>
+                                    <ul>
+                                        <li class="<?php echo (uri_string() == 'admin/beneficiaries') ? 'active' : ''; ?>"> <a href="<?php echo base_url('/admin/beneficiaries'); ?>">
+                                    <?php echo lang('admin button beneficiaries_list'); ?>
+                                </a> </li>
+                                        <li class="<?php echo (uri_string() == 'admin/beneficiaries/add') ? 'active' : ''; ?>"> <a href="<?php echo base_url('/admin/beneficiaries/add'); ?>">
+                                  <?php echo lang('admin button beneficiaries_add'); ?>
+                                </a> </li>
+                                    </ul>
+                                </li>
                                 <li class="<?php echo (strstr(uri_string(), 'admin/transactions')) ? 'active open' : ''; ?>">
                                     <a href=""> <i class="icon-directions icons"></i> <?php echo lang('admin button transactions'); ?> <i class="fa arrow"></i> </a>
                                     <ul>
@@ -162,7 +173,7 @@
                                     </ul>
                                 </li>
                               
-                                <li class="<?php echo (strstr(uri_string(), 'admin/merchants')) ? 'active open' : ''; ?>">
+                               <!--  <li class="<?php echo (strstr(uri_string(), 'admin/merchants')) ? 'active open' : ''; ?>">
                                     <a href=""> <i class="icon-handbag icons"></i> <?php echo lang('admin merchant title'); ?> <i class="fa arrow"></i> </a>
                                     <ul>
                                       <li class="<?php echo (uri_string() == 'admin/merchants/index') ? 'active' : ''; ?>"> <a href="<?php echo base_url('/admin/merchants/'); ?>">
@@ -178,9 +189,9 @@
                                   <?php echo lang('admin merchant disapproved'); ?>
                                 </a> </li>
                                     </ul>
-                                </li>
+                                </li> -->
                               
-                                <li class="<?php echo (strstr(uri_string(), 'admin/vouchers')) ? 'active open' : ''; ?>">
+                                <!-- <li class="<?php echo (strstr(uri_string(), 'admin/vouchers')) ? 'active open' : ''; ?>">
                                     <a href=""> <i class="icon-diamond icons"></i> <?php echo lang('admin vouchers menu'); ?> <i class="fa arrow"></i> </a>
                                     <ul>
                                       <li class="<?php echo (uri_string() == 'admin/vouchers/index') ? 'active' : ''; ?>"> <a href="<?php echo base_url('/admin/vouchers'); ?>">
@@ -194,7 +205,7 @@
                                 </a> </li>
    
                                     </ul>
-                                </li>
+                                </li> -->
 
                                 <li class="<?php echo (uri_string() == 'admin/contact') ? 'active' : ''; ?>">
                                     <a href="<?php echo base_url('/admin/contact'); ?>"> <i class="icon-drawer icons"></i> <?php echo lang('admin button messages'); ?> </a>

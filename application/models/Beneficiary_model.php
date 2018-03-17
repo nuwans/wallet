@@ -18,7 +18,7 @@ class Beneficiary_model extends CI_Model {
         $this->_db = 'beneficiaries';
     }
 	
-	function get_all($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC')
+	function get_all($limit = 0, $offset = 0, $filters = array(), $sort = 'last_name', $dir = 'ASC')
     {
         $sql = "
             SELECT SQL_CALC_FOUND_ROWS *
@@ -414,7 +414,58 @@ class Beneficiary_model extends CI_Model {
 
         return FALSE;
     }
-	
+
+
+     /**
+     * Edit an existing beneficiary by admin
+     *
+     * @param  array $data
+     * @return boolean
+     */
+    function edit_user($data = array())
+    {
+        if ($data)
+        {
+            $sql = "
+                UPDATE {$this->_db}
+                SET
+                    user = " . $this->db->escape($data['user']) . ",
+            ";
+
+            $sql .= "
+                    first_name = " . $this->db->escape($data['first_name']) . ",
+                    last_name = " . $this->db->escape($data['last_name']) . ",
+                    email = " . $this->db->escape($data['email']) . ",
+					phone = " . $this->db->escape($data['phone']) . ",
+                    debit_base = " . $this->db->escape($data['debit_base']) . ",
+                    debit_extra1 = " . $this->db->escape($data['debit_extra1']) . ",
+                    debit_extra2 = " . $this->db->escape($data['debit_extra2']) . ",
+                    debit_extra3 = " . $this->db->escape($data['debit_extra3']) . ",
+                    debit_extra4 = " . $this->db->escape($data['debit_extra4']) . ",
+                    debit_extra5 = " . $this->db->escape($data['debit_extra5']) . "
+                WHERE id = " . $this->db->escape($data['id']) . "
+            ";
+
+            $this->db->query($sql);
+
+            if ($this->db->affected_rows())
+            {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
+    }
+
+
+
+    
+    /* get  all transactions */
+
+    function get_log_transactions_in($username) 
+	{
+		return $this->db->where("receiver", $username)->order_by('id', 'DESC')->limit(10)->get("transactions");
+	}
 	
 	/**
      * Update status
