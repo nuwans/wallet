@@ -38,7 +38,7 @@
                     <?php if ($sort == 'last_name') : ?><i class="icon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?> icons"></i><?php endif; ?>
                 </th>
                 <th>
-                    <a href="<?php echo current_url(); ?>?sort=email&dir=<?php echo (($dir == 'asc' ) ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('admin col email'); ?></a>
+                    <a href="<?php echo current_url(); ?>?sort=email&dir=<?php echo (($dir == 'asc' ) ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('users col email'); ?></a>
                     <?php if ($sort == 'email') : ?><i class="icon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?> icons"></i><?php endif; ?>
                 </th>
                 <th><?php echo lang('admin col actions'); ?></th>
@@ -66,9 +66,9 @@
                         </td>
                         <td>
                                
-                                    <?php if ($user['id'] > 1) : ?>
+                                   <!--  <?php if ($user['id'] > 1) : ?>
                                         <a href="#modal-<?php echo $user['id']; ?>" data-toggle="modal" class="btn btn-down btn-danger"><i class="icon-close icons"></i></a>
-                                    <?php endif; ?>
+                                    <?php endif; ?> -->
                                     <a href="<?php echo $this_url; ?>/edit/<?php echo $user['id']; ?>" class="btn btn-down btn-primary"><i class="icon-eye icons"></i></a>
                                
                         </td>
@@ -150,7 +150,7 @@
 <?php // delete modal ?>
 <?php if ($total) : ?>
     <?php foreach ($users as $user) : ?>
-        <?php echo form_open('admin/users/delete/'. $user['id'] . '', array('role'=>'form')); ?>
+        <?php echo form_open('admin/beneficiaries/delete/'. $user['id'] . '', array('role'=>'form')); ?>
 
               <?php // hidden id ?>
               <?php if (isset($user['id'])) : ?>

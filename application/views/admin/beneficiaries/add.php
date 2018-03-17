@@ -5,7 +5,7 @@
     <div class="card sameheight-item items" data-exclude="xs,sm,lg">
       <div class="card-header bordered">
         <div class="header-block">
-           <h3 class="title"><?php echo lang('admin input use_detail'); ?></h3> 
+           <h3 class="title"><?php echo lang('admin input beneficiary_detail'); ?></h3> 
         </div>
        <ul class="nav nav-tabs pull-right" role="tablist">
           <li class="nav-item"> <a class="nav-link active" href="#overview" role="tab" data-toggle="tab"><?php echo lang('admin input overview'); ?></a> </li>

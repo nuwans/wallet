@@ -65,6 +65,7 @@ $lang['users input password_repeat']          = "Herhaal wachtwoord";
 $lang['users input status']                   = "Status";
 $lang['users input username']                 = "Gebruikersnaam";
 $lang['users input username_email']           = "Gebruikersnaam of E-mail";
+$lang['users input username_email']           = "Gebruikersnaam of E-mail";
 
 // Help
 $lang['users help passwords']                 = "Vul alleen wachtwoorden in als u wilt wijzigen.";

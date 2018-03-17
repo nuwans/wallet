@@ -74,6 +74,12 @@ $lang['users input added_by']                 = "Added By";
 $lang['users input id']                 = "User ID";
 $lang['users input username_email']           = "Username or Email";
 $lang['users input phone']                    = "Phone";
+$lang['users input address1']                    = "Address 1";
+$lang['users input address2']                    = "Address 2";
+$lang['users input state']                    = "State";
+$lang['users input city']                    = "City";
+$lang['users input bank_account']                    = "Account number";
+$lang['users input bank_code']                    = "Bank Code";
 
 // Help
 $lang['users help passwords']                 = "Only enter passwords if you want to change it.";

@@ -65,6 +65,48 @@
                       <?php echo form_input(array('name'=>'phone', 'value'=>set_value('phone', (isset($user['phone']) ? $user['phone'] : '')), 'class'=>'form-control underlined')); ?>
                   </div>
               </div>
+              <div class="row">
+
+                  <?php // address1 ?>
+                  <div class="form-group col-sm-4<?php echo form_error('address1') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input address1'), 'address1', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'address1', 'value'=>set_value('address1', (isset($user['address1']) ? $user['address1'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+                  <?php // address2 ?>
+                  <div class="form-group col-sm-4<?php echo form_error('address2') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input address2'), 'address2', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'address2', 'value'=>set_value('address2', (isset($user['address2']) ? $user['address2'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+                  
+                  <?php // city ?>
+                  <div class="form-group col-sm-4<?php echo form_error('city') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input city'), 'city', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'city', 'value'=>set_value('city', (isset($user['city']) ? $user['city'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+
+                  <?php // state ?>
+                  <div class="form-group col-sm-4<?php echo form_error('state') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input state'), 'state', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'state', 'value'=>set_value('state', (isset($user['state']) ? $user['state'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+                
+                  <?php // bank  ?>
+                  <div class="form-group col-sm-4<?php echo form_error('account_number') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input bank_account'), 'account_number', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'account_number', 'value'=>set_value('account_number', (isset($user['account_number']) ? $user['account_number'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+                  <?php // bank  ?>
+                  <div class="form-group col-sm-4<?php echo form_error('bank_code') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('users input bank_code'), 'bank_code', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <?php echo form_input(array('name'=>'bank_code', 'value'=>set_value('bank_code', (isset($user['bank_code']) ? $user['bank_code'] : '')), 'class'=>'form-control underlined')); ?>
+                  </div>
+              </div>
 
               <div class="row">
                 <?php // buttons ?>

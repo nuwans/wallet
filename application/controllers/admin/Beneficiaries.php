@@ -278,7 +278,14 @@ class Beneficiaries extends Admin_Controller {
         $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email');
-		$this->form_validation->set_rules('phone', lang('users input phone'), 'required|numeric');
+        $this->form_validation->set_rules('phone', lang('users input phone'), 'required|numeric');
+        $this->form_validation->set_rules('address1', lang('users benificiaries address1'), 'required');
+		$this->form_validation->set_rules('address2', lang('users benificiaries address1'), 'required');
+		$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
+		$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
+		$this->form_validation->set_rules('account_number', lang('users benificiaries account'), 'required|trim');
+		$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'), 'required|trim');
+
 		 $this->form_validation->set_rules('debit_base', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra1', lang('users input debit_base'), 'required|numeric');
 		$this->form_validation->set_rules('debit_extra2', lang('users input debit_base'), 'required|numeric');
