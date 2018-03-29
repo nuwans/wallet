@@ -167,8 +167,33 @@
                           </div>
 
                   </div>
-              </div>
 
+                  
+              </div>
+              <div class="row">
+              <?php // fee status ?>
+                  <div class="form-group col-sm-3<?php echo form_error('is_custom_fees') ? ' has-error' : ''; ?>">
+                      <?php echo form_label(lang('admin input fee_status'), '', array('class'=>'control-label')); ?>
+                      <span class="required">*</span>
+                      <div>
+                          <label style="font-weight:500">
+                              <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'is_custom_fees', 'id'=>'is_custom_fees', 'value'=>1, 'checked'=>((isset($user['is_custom_fees']) && (int)$user['is_custom_fees'] == 1) ? 'checked' : FALSE))); ?>
+                              <span><?php echo lang('admin input fee_activated'); ?></span>
+                          </label>
+                      </div>
+                      <div>
+                          <label style="font-weight:500">
+                              <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'is_custom_fees', 'id'=>'is_custom_fees', 'value'=>0, 'checked'=>((isset($user['is_custom_fees']) && (int)$user['is_custom_fees'] == 0) ? 'checked' : FALSE))); ?>
+                              <span><?php echo lang('admin input fee_deactivated'); ?></span>
+                          </label>
+                      </div>
+                      <div class="<?php echo form_error('transaction_fees') ? ' has-error' : ''; ?>">
+                        <?php echo form_label(lang('admin input transactio_in'), 'transaction_fees', array('class'=>'control-label')); ?>
+                        <?php echo form_input(array('name'=>'transaction_fees', 'value'=>set_value('transaction_fees', (isset($user['transaction_fees']) ? $user['transaction_fees'] : '')), 'class'=>'form-control underlined')); ?>
+                      </div>
+
+                  </div>
+              </div>
               <div class="row">
                   <?php // password ?>
                   <div class="form-group col-sm-6<?php echo form_error('password') ? ' has-error' : ''; ?>">

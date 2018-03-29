@@ -2,7 +2,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script >
 (function($) {
-  $(function() {
     var argument = $('input[name="amount"]'),
       result = $('input[name="sum"]'),
       custom_fees=<?php echo $user["is_custom_fees"]; ?>,
@@ -40,10 +39,11 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <?php echo form_open(site_url("account/start_transfer/"), array("" => "")) ?>
+            <?php echo form_hidden('beneficiary', $transactions['receiver']); ?>
             <div class="col-md-5">
                 <div class="form-group">
                     <label><?php echo lang('users transfer amount'); ?></label>
-                    <input type="text" class="form-control" name="amount" onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')" placeholder="0.00">
+                    <input type="text" class="form-control" name="amount" onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')" value="<?php echo $transactions['amount'] ; ?>"  placeholder="0.00">
                   </div>
                 </div>
             <div class="col-md-2">
@@ -83,8 +83,7 @@
             </div>
             <div class="col-md-5">
                 <div class="form-group">
-                    <label>
-                    <?php
+                    <label> <?php
                         if($user["is_custom_fees"]==1){ 
                             echo lang('users transfer sum');
                              echo $percent;
@@ -97,30 +96,20 @@
                          } 
                          
                          ?>
-                   <!--  <?php echo lang('users transfer sum'); ?>, <?php echo $percent; ?>%,<?php echo $fee1*100; ?>%, <?php echo $fee2*100; ?>%  -->
+                    
+                  
                     </label>
-                    <input type="text" class="form-control" name="sum" disabled>
+                    <input type="text" class="form-control" name="sum" value="<?php echo $transactions['fee'] ; ?>" disabled>
                   </div>
               </div>
             <div class="col-md-12">
-              <!-- <div class="form-group">
-                    <label><?php echo lang('users transfer receiver'); ?></label>
-                    <input type="text" class="form-control" name="receiver">
-               </div> -->
               <div class="form-group">
-                    <label><?php echo lang('users transfer beneficiary'); ?></label>
-                    <select class="form-control" name="beneficiary">
-                    <?php foreach ($beneficiaries as $ben): ?>
-                        <option value="<?php echo $ben["id"]; ?>">
-                        <?php echo $ben["first_name"]; ?>
-                        <?php echo $ben["last_name"]; ?>
-                        </option>
-                    <?php endforeach; ?>
-                    </select>
-               </div>
+                    <label><?php echo lang('users transfer receiver_id'); ?></label>
+                    <input type="text" class="form-control"  value="<?php echo $transactions['receiver'] ; ?>" name="receiver" disabled>
+               </div> 
               <div class="form-group">
                     <label><?php echo lang('users reqest note'); ?></label>
-                    <textarea class="form-control" rows="5" name="note"></textarea>
+                    <textarea class="form-control" rows="5" value="<?php if($transactions['user_comment']){echo $transactions['user_comment'] ;}else{echo '';} ?>" name="note"></textarea>
                   </div>
               <div class="pull-right">
                   <button type="submit" class="btn btn-primary">

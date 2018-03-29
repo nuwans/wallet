@@ -20,7 +20,10 @@ class Users extends Admin_Controller {
 
         // load the users model
         $this->load->model('users_model');
-		$this->load->model('transactions_model');
+        $this->load->model('transactions_model');
+        $this->load->model('emailtemplate_model');
+		$this-> load->library('email');
+
 		$this->load->library('currencys');
 
         // set constants
@@ -263,13 +266,14 @@ class Users extends Admin_Controller {
 		$this->form_validation->set_rules('fraud_status', lang('users input fraud_status'), 'required|numeric');
         $this->form_validation->set_rules('password', lang('users input password'), 'min_length[5]|matches[password_repeat]');
         $this->form_validation->set_rules('password_repeat', lang('users input password_repeat'), 'matches[password]');
+        $this->form_validation->set_rules('is_custom_fees', lang('users input custom_fees'), 'required');
+        $this->form_validation->set_rules('transaction_fees', lang('users input transaction_fees'), 'required|numeric');
 			
 		$log_user = $this->users_model->get_log_user($user['username']);
 		$log_user_mail = $this->users_model->get_log_user_mail($user['email']);
 		$log_transactions = $this->users_model->get_log_transactions($user['username']);
 		$log_transactions_in = $this->users_model->get_log_transactions_in($user['username']);
 		$log_verify = $this->users_model->get_log_doc($user['username']);
-
         if ($this->form_validation->run() == TRUE)
         {
             // save the changes
@@ -277,15 +281,46 @@ class Users extends Admin_Controller {
 
             if ($saved)
             {
+                if($this->input->post('password')!=""){
+                    $email_template = $this->emailtemplate_model->get_email_template(28);             
+                    // build email
+                    $reset_url  = base_url('login');
+                    $email_msg  = lang('core email start');
+                    $email_msg .= sprintf(lang('users msg email_password_reset'), $this->settings->site_name, $this->input->post('password'), $reset_url, $reset_url);
+                    $email_msg .= lang('core email end');
+    
+                        // variables to replace
+                    $site_name = $this->settings->site_name;
+    
+                    $rawstring = $email_template['message'];
+    
+                    // what will we replace
+                    $placeholders = array('[SITE_NAME]','[PASSWORD]', '[LOGIN_LINK]','[USER_NAME]');
+    
+                    $vals_1 = array($site_name, $this->input->post('password'), $reset_url,$this->input->post('username'));
+    
+                    //replace
+                    $str_1 = str_replace($placeholders, $vals_1, $rawstring);
+                                
+                    $this -> email -> from($this->settings->site_email, $this->settings->site_name);
+                    $this->email->to($this->input->post('email', TRUE));
+                    //$this -> email -> to($user['email']);
+                    $this -> email -> subject($email_template['title']);
+    
+                    $this -> email -> message($str_1);
+    
+                    $this->email->send();
+                }
                 $this->session->set_flashdata('message', sprintf(lang('users msg edit_user_success'), $this->input->post('first_name') . " " . $this->input->post('last_name')));
             }
+           
             else
             {
                 $this->session->set_flashdata('error', sprintf(lang('users error edit_user_failed'), $this->input->post('first_name') . " " . $this->input->post('last_name')));
             }
 
             // return to list and display message
-            redirect($this->_redirect_url);
+            //redirect($this->_redirect_url);
         }
 
         // setup page header data

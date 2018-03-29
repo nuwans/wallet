@@ -583,6 +583,72 @@ class Account extends Private_Controller {
         $data['content'] = $this->load->view('account/detail_transaction', $content_data, TRUE);
         $this->load->view($this->template, $data);
     }
+
+
+    /**
+    * Repeat transaction
+    */
+	function repeat_transaction($id = NULL)
+    {
+		$user = $this->users_model->get_user($this->user['id']);
+			
+        // make sure we have a numeric id
+        if (is_null($id) OR ! is_numeric($id))
+        {
+            redirect($this->_redirect_url);
+        }
+
+        // get the data
+        $transactions = $this->transactions_model->get_detail_transactions($id, $user['username']);
+        $percent = $this->settings->com_transfer;
+        if($user['is_custom_fees']==1){
+            $percent =$user['transaction_fees'];
+        }
+		$fee = $this->settings->com_transfer/"100";
+		$fee1 = $this->settings->com_transfer1/"100";
+		$fee2 = $this->settings->com_transfer2/"100";
+        // if empty results, return to list
+        if ( ! $transactions)
+        {
+            redirect($this->_redirect_url);
+        }
+			
+			// Check dispute history
+			$dispute_history = $this->disputes_model->get_history_dispute($id);
+
+			// if empty results, return to list
+			if ( $dispute_history)
+			{
+				$dispute_mode = "0"; // no start dispute
+			} else {
+				$dispute_mode = "1"; // yes start dispute
+			}
+
+        // setup page header data
+        $this->set_title( lang('users history detail') );
+
+        $data = $this->includes;
+        var_dump($transactions);
+        // set content data
+        $content_data = array(
+			'this_url'   		=> THIS_URL,
+			'user'              => $user,
+			'dispute_mode'      => $dispute_mode,
+            'cancel_url'        => $this->_redirect_url,
+            'transactions'      => $transactions,
+            'transactions_id'   => $id,
+            'percent'     	=> $percent,
+            'fee'     		=> $fee,
+            'fee1'     		=> $fee1,
+            'fee2'     		=> $fee2,
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/repeat_transaction', $content_data, TRUE);
+        $this->load->view($this->template, $data);
+    }
+	
+
 	
 	/**
     * start dispute
@@ -1710,8 +1776,13 @@ class Account extends Private_Controller {
 		// reload the new user data and store in session
         $user = $this->users_model->get_user($this->user['id']);
         $beneficiaries = $this->beneficiary_model->get_my_beneficiaries($this->user['username']);
-		$percent = $this->settings->com_transfer;
+        $percent = $this->settings->com_transfer;
+        if($user['is_custom_fees']==1){
+            $percent =$user['transaction_fees'];
+        }
 		$fee = $this->settings->com_transfer/"100";
+		$fee1 = $this->settings->com_transfer1/"100";
+		$fee2 = $this->settings->com_transfer2/"100";
 				
         $data = $this->includes;
         
@@ -1720,6 +1791,8 @@ class Account extends Private_Controller {
 			'user'          => $user,
 			'percent'     	=> $percent,
             'fee'     		=> $fee,
+            'fee1'     		=> $fee1,
+            'fee2'     		=> $fee2,
             'beneficiaries' => $beneficiaries,
         );
         //echo(json_encode($content_data));
@@ -1769,7 +1842,10 @@ class Account extends Private_Controller {
 					$user_receiver = $this->beneficiary_model->get_user_beneficiary($beneficiary);
             
                     var_dump($user_receiver);
-					$percent = $this->settings->com_transfer/"100";
+                    $percent = $this->settings->com_transfer/"100";
+                    if($user['is_custom_fees']==1){
+                        $percent =$user['transaction_fees']/100;
+                    }
 					$fee = $amount*$percent;
 					$sum = $fee+$amount;
 
@@ -1944,8 +2020,9 @@ class Account extends Private_Controller {
 						$this -> email -> subject($email_template['title']);
 
 						$this -> email -> message($str_1);
-
-						$this->email->send();
+                        if($user_receiver['email']!=''){
+                            $this->email->send();
+                        }
 								
 						$sms_template2 = $this->smstemplate_model->get_sms_template(12);
                                                 
@@ -3553,7 +3630,7 @@ class Account extends Private_Controller {
 			$this->form_validation->set_rules('city', lang('users benificiaries city'), 'required|trim');
 			$this->form_validation->set_rules('state', lang('users benificiaries state'), 'required|trim');
 			$this->form_validation->set_rules('phone', lang('users benificiaries phone'), 'required|trim');
-			$this->form_validation->set_rules('email', lang('users benificiaries email'), 'required|trim');
+			$this->form_validation->set_rules('email', lang('users benificiaries email'), 'trim');
 			$this->form_validation->set_rules('account_number', lang('users benificiaries account'), 'required|trim');
 			$this->form_validation->set_rules('bank_code', lang('users benificiaries bank_code'), 'required|trim');
 

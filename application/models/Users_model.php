@@ -434,6 +434,8 @@ class Users_model extends CI_Model {
                     debit_extra5 = " . $this->db->escape($data['debit_extra5']) . ",
                     verifi_status = " . $this->db->escape($data['verifi_status']) . ",
                     fraud_status = " . $this->db->escape($data['fraud_status']) . ",
+                    is_custom_fees = " . $this->db->escape($data['is_custom_fees']) . ",
+                    transaction_fees = " . $this->db->escape($data['transaction_fees']) . ",
                     status = " . $this->db->escape($data['status']) . ",
                     updated = '" . date('Y-m-d H:i:s') . "'
                 WHERE id = " . $this->db->escape($data['id']) . "

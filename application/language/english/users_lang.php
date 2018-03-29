@@ -67,6 +67,8 @@ $lang['users input language']                 = "Language";
 $lang['users input last_name']                = "Last Name";
 $lang['users input password']                 = "Password";
 $lang['users input password_repeat']          = "Repeat Password";
+$lang['users input custom_fees']          = "Custom fees";
+$lang['users input transaction_fees']          = "Transaction fees";
 $lang['users input status']                   = "Status";
 $lang['users input username']                 = "Username";
 $lang['users input for']                 = "For";
@@ -136,6 +138,7 @@ $lang['users trans exchange']                 = "Exchange";
 $lang['users trans external']                 = "External deposit";
 $lang['users trans pending']                  = "Pending";
 $lang['users trans success']                  = "Confirmed";
+$lang['users trans repeat']                  = "Repeat";
 $lang['users trans refund']                   = "Refund";
 $lang['users trans dispute']                  = "Dispute";
 $lang['users trans blocked']                  = "Blocked";
@@ -170,6 +173,22 @@ $lang['users history help']                   = "Specify in the text box the rea
 $lang['users history start']                  = "Start dispute";
 $lang['users history dispute_success']        = "The dispute was successfully opened! You can track the dispute in the center of the resolution";
 $lang['users history swift']                  = "We expect your payment! Enter in the payment Bank order your username.";
+// History
+$lang['users repeat all']                    = "Account IP history";
+$lang['users repeat detail']                 = "Detail transaction";
+$lang['users repeat id_trans']               = "Repeat transaction";
+$lang['users repeat open_dispute']           = "Open dispute";
+$lang['users repeat print']                  = "Print detail";
+$lang['users repeat of']                     = "Dated";
+$lang['users repeat open_dispute']           = "Opening dispute";
+$lang['users repeat dispute_title']          = "Reason for opening a dispute";
+$lang['users repeat not_received']           = "I have not received the goods";
+$lang['users repeat not_desk']               = "Product does not match the description";
+$lang['users repeat reason']                 = "Describe the essence of the dispute";
+$lang['users repeat help']                   = "Specify in the text box the reason why you open this dispute. As detailed as possible description of the problem and ask the seller of options for its solutions.";
+$lang['users repeat start']                  = "Start dispute";
+$lang['users repeat dispute_success']        = "The dispute was successfully opened! You can track the dispute in the center of the resolution";
+$lang['users repeat swift']                  = "We expect your payment! Enter in the payment Bank order your username.";
 
 // Dispute
 $lang['users dispute list']                   = "List of disputes";
@@ -234,10 +253,12 @@ $lang['users reqest success']                 = "Your request was successfully s
 
 // Transfer
 $lang['users transfer amount']                = "Amount trasfer";
-$lang['users transfer sum']                   = "Fee";
+$lang['users transfer sum']                   = "Fee ";
+$lang['users transfer over']                   = "over ";
 $lang['users transfer help_com']              = "With commission";
 $lang['users transfer receiver']              = "Username receiver";
-$lang['users transfer beneficiary']              = "Username beneficiary";
+$lang['users transfer receiver_id']           = "Receiver Id";
+$lang['users transfer beneficiary']           = "Username beneficiary";
 $lang['users transfer send']                  = "Send money";
 $lang['users transfer success']               = "Money transfer was successfully completed!";
 

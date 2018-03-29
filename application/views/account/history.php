@@ -141,7 +141,18 @@
                             <?}else{?>
                             <?}?>
               </td>
-              <td><a href="/account/detail_transaction/<?php echo $view['id']; ?>" class="btn btn-default btn-block"><?php echo lang('users trans detail'); ?></a></td>
+              <td>
+                <a href="../account/detail_transaction/<?php echo $view['id']; ?>" class="btn btn-default btn-block">
+                    <?php echo lang('users trans detail'); ?>
+                 </a>
+                <?if(($view['status']==2) && ($view['type']==3)){?>
+                        <a href="../account/repeat_transaction/<?php echo $view['id']; ?>" class="btn btn-default btn-block">
+                            <?php echo lang('users trans repeat'); ?>
+                        </a>
+                            <?}else{?>
+                <?}?>
+              </td>
+              
             </tr>
           
           <?php endforeach; ?>
