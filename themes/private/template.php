@@ -16,7 +16,8 @@
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>themes/private/css/bootstrap.css">
 	<link rel="stylesheet" href="<?php echo base_url();?>themes/private/css/default.css">
-	<link rel="stylesheet" href="<?php echo base_url();?>themes/private/css/login.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>themes/private/css/login.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>themes/private/css/color-theame.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
@@ -49,11 +50,12 @@
                 <?php // Nav bar left ?>
                 <ul class="nav navbar-nav">
                     <li class="<?php echo (uri_string() == '') ? 'active' : ''; ?>"><a href="<?php echo base_url('/'); ?>"><?php echo lang('core button home'); ?></a></li>
-										<li class="<?php echo (uri_string() == 'features') ? 'active' : ''; ?>"><a href="<?php echo base_url('/features'); ?>"><?php echo lang('core button features'); ?></a></li>
-                    <li class="<?php echo (uri_string() == 'merchant') ? 'active' : ''; ?>"><a href="<?php echo base_url('/mecrhant'); ?>"><?php echo lang('core button mecrhant'); ?></a></li>
-										<li class="<?php echo (uri_string() == 'protect') ? 'active' : ''; ?>"><a href="<?php echo base_url('/protect'); ?>"><?php echo lang('core button protect'); ?></a></li>
-										<li class="<?php echo (uri_string() == 'help') ? 'active' : ''; ?>"><a href="<?php echo base_url('/help'); ?>"><?php echo lang('core button help'); ?></a></li>
-										<li class="<?php echo (uri_string() == 'contact') ? 'active' : ''; ?>"><a href="<?php echo base_url('/contact'); ?>"><?php echo lang('core button contact'); ?></a></li>
+                    <!-- <li class="<?php echo (uri_string() == 'features') ? 'active' : ''; ?>"><a href="<?php echo base_url('/features'); ?>"><?php echo lang('core button features'); ?></a></li>
+                    <li class="<?php echo (uri_string() == 'merchant') ? 'active' : ''; ?>"><a href="<?php echo base_url('/mecrhant'); ?>"><?php echo lang('core button mecrhant'); ?></a></li> -->
+                    <li class="<?php echo (uri_string() == 'services') ? 'active' : ''; ?>"><a href="<?php echo base_url('/services'); ?>"><?php echo lang('core button services'); ?></a></li>
+                    <li class="<?php echo (uri_string() == 'protect') ? 'active' : ''; ?>"><a href="<?php echo base_url('/protect'); ?>"><?php echo lang('core button protect'); ?></a></li>
+                    <li class="<?php echo (uri_string() == 'help') ? 'active' : ''; ?>"><a href="<?php echo base_url('/help'); ?>"><?php echo lang('core button help'); ?></a></li>
+                    <li class="<?php echo (uri_string() == 'contact') ? 'active' : ''; ?>"><a href="<?php echo base_url('/contact'); ?>"><?php echo lang('core button contact'); ?></a></li>
 										
                 </ul>
                 <?php // Nav bar right ?>
