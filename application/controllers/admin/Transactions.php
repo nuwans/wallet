@@ -1021,9 +1021,18 @@ class Transactions extends Admin_Controller {
         {
             redirect($this->_redirect_url);
         }
-
+        $sender=null;
+        $receiver=null;
         // get the data
         $transactions = $this->transactions_model->get_transactions($id);
+        if($transactions["type"]==3){
+            $sender=$this->users_model->get_user_transfer($transactions['sender']);
+            $receiver= $this->beneficiary_model->get_user_beneficiary($transactions['receiver']);
+        }
+        if($transactions["type"]==1){
+            $receiver= $this->users_model->get_user_transfer($transactions['receiver']);
+        }
+
 
         // if empty results, return to list
         if ( ! $transactions)
@@ -1070,9 +1079,10 @@ class Transactions extends Admin_Controller {
         $content_data = array(
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
-            'transactions_id'   => $id
+            'transactions_id'   => $id,
+            'sender'   => $sender,
+            'receiver'   => $receiver,
         );
-
         // load views
         $data['content'] = $this->load->view('admin/transactions/form', $content_data, TRUE);
         $this->load->view($this->template, $data);
@@ -1281,76 +1291,91 @@ class Transactions extends Admin_Controller {
 	{
 		// get the data
         $transactions = $this->transactions_model->get_transactions($id);
-		$user = $this->beneficiary_model->get_user_beneficiary($transactions['receiver']);
+        $user = $this->beneficiary_model->get_user_beneficiary($transactions['receiver']);
+        if($transactions['type'] ==1){
+            $user = $this->users_model->get_user_transfer($transactions['receiver']);
+        }
         $wallet = $transactions['currency'];
         $currency=$wallet;
 		// Calculation of the amount to be credited to the claimant 
         $return = $user[$wallet]+$transactions['amount'];
+        if($transactions['type'] ==1){
+            $return = $user[$wallet]+$transactions['sum'];
+        }
         $total_from_user=$transactions['sum'];
 		if ($transactions['status'] != 2)
 		{
 		
-		// update transaction history
-		$this->transactions_model->update_dispute_transactions($transactions['id'],
-			array(
-				"status"   	 => "2",
-			)
-		); 
-        // update claimant wallet
-        $this->beneficiary_model->update_wallet_transfer($transactions['receiver'],
-							array(
-								$transactions['currency']  => $return,
-								)
-		);
-		
-        if ($currency=="debit_base") {
-            $mail_cyr = $this->currencys->display->base_code;
-        } elseif ($currency=="debit_extra1") {
-            $mail_cyr = $this->currencys->display->extra1_code;
-        } elseif ($currency=="debit_extra2") {
-            $mail_cyr = $this->currencys->display->extra2_code;
-        } elseif ($currency=="debit_extra3") {
-            $mail_cyr = $this->currencys->display->extra3_code;
-        } elseif ($currency=="debit_extra4") {
-            $mail_cyr = $this->currencys->display->extra4_code;
-        } elseif ($currency=="debit_extra5") {
-            $mail_cyr = $this->currencys->display->extra5_code;
-        }
-        $sms_template = $this->smstemplate_model->get_sms_template(15);
-        if($sms_template['enable']) {					
-            $rawstring = $sms_template['message'];
-
-            // what will we replace
-            $placeholders = array('[SUM_1]', '[CYR_1]', '[USER_FNAME]');
-
-            $vals_1 = array($transactions['amount'], $mail_cyr, $user['first_name']);
-
-            //replace
-            $str_1 = str_replace($placeholders, $vals_1, $rawstring);
-            echo $str_1;        
-            // Twilio user number
-            $to = '+'.$user['phone'];
-            // Your Account SID and Auth Token from twilio.com/console
-            $sid = $this->settings->twilio_sid;
-            $token = $this->settings->twilio_token;
-            $client = new Twilio\Rest\Client($sid, $token);
-
-            // Use the client to do fun stuff like send text messages!
-            $client->messages->create(
-            // the number you'd like to send the message to
-            $to,
+            // update transaction history
+            $this->transactions_model->update_dispute_transactions($transactions['id'],
                 array(
-                    // A Twilio phone number you purchased at twilio.com/console
-                    'from' => '+'.$this->settings->twilio_number,
-                    // the body of the text message you'd like to send
-                    'body' => $str_1
+                    "status"   	 => "2",
                 )
-            );
+            ); 
+            if($transactions['type'] ==3 ){
+                // update claimant wallet if transfer
+                $this->beneficiary_model->update_wallet_transfer($transactions['receiver'],
+                            array(
+                                $transactions['currency']  => $return,
+                                )
+                );
 
-        }
-		$this->session->set_flashdata('message', lang('admin trans success_confirm'));
-		//redirect(site_url("admin/transactions")); */
-        
+                if ($currency=="debit_base") {
+                $mail_cyr = $this->currencys->display->base_code;
+                } elseif ($currency=="debit_extra1") {
+                $mail_cyr = $this->currencys->display->extra1_code;
+                } elseif ($currency=="debit_extra2") {
+                $mail_cyr = $this->currencys->display->extra2_code;
+                } elseif ($currency=="debit_extra3") {
+                $mail_cyr = $this->currencys->display->extra3_code;
+                } elseif ($currency=="debit_extra4") {
+                $mail_cyr = $this->currencys->display->extra4_code;
+                } elseif ($currency=="debit_extra5") {
+                $mail_cyr = $this->currencys->display->extra5_code;
+                }
+                $sms_template = $this->smstemplate_model->get_sms_template(15);
+                if($sms_template['enable']) {					
+                    $rawstring = $sms_template['message'];
+
+                    // what will we replace
+                    $placeholders = array('[SUM_1]', '[CYR_1]', '[USER_FNAME]');
+
+                    $vals_1 = array($transactions['amount'], $mail_cyr, $user['first_name']);
+
+                    //replace
+                    $str_1 = str_replace($placeholders, $vals_1, $rawstring);
+                    //echo $str_1;        
+                    // Twilio user number
+                    $to = '+'.$user['phone'];
+                    // Your Account SID and Auth Token from twilio.com/console
+                    $sid = $this->settings->twilio_sid;
+                    $token = $this->settings->twilio_token;
+                   /*  $client = new Twilio\Rest\Client($sid, $token);
+
+                    // Use the client to do fun stuff like send text messages!
+                    $client->messages->create(
+                    // the number you'd like to send the message to
+                    $to,
+                    array(
+                        // A Twilio phone number you purchased at twilio.com/console
+                        'from' => '+'.$this->settings->twilio_number,
+                        // the body of the text message you'd like to send
+                        'body' => $str_1
+                    )
+                    ); */
+
+                }
+                $this->session->set_flashdata('message', lang('admin trans success_confirm'));
+                //redirect(site_url("admin/transactions")); */
+            }
+            
+            else if($transactions['type'] ==1 ){
+                $this->users_model->update_wallet_transfer($transactions['receiver'],
+                    array($transactions['currency']  => $return,));
+
+            }
+            redirect(site_url("admin/transactions"));
+            
 		}else{
 			$this->session->set_flashdata('error', lang('users error form'));
 			redirect(site_url("admin/transactions"));

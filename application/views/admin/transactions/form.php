@@ -52,30 +52,30 @@
                                                                 <span><?php echo lang('admin trans deposit'); ?></span>
                                                             </label>
                                                         </div>
-                                                        <div>
+                                                        <!-- <div>
                                                             <label style="font-weight:500">
                                                                 <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'type', 'id'=>'type-2', 'value'=>'2', 'checked'=>((isset($transactions['type']) && (int)$transactions['type'] == 2) ? 'checked' : FALSE))); ?>
                                                                 <span><?php echo lang('admin trans withdrawal'); ?></span>
                                                             </label>
-                                                        </div>
+                                                        </div> -->
                                                         <div>
                                                             <label style="font-weight:500">
                                                                 <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'type', 'id'=>'type-3', 'value'=>'3', 'checked'=>((isset($transactions['type']) && (int)$transactions['type'] == 3) ? 'checked' : FALSE))); ?>
                                                                 <span><?php echo lang('admin trans transfer'); ?></span>
                                                             </label>
                                                         </div>
-                                                        <div>
+                                                        <!-- <div>
                                                             <label style="font-weight:500">
                                                                 <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'type', 'id'=>'type-4', 'value'=>'4', 'checked'=>((isset($transactions['type']) && (int)$transactions['type'] == 4) ? 'checked' : FALSE))); ?>
                                                                 <span><?php echo lang('admin trans exchange'); ?></span>
                                                             </label>
-                                                        </div>
-                                                        <div>
+                                                        </div> -->
+                                                       <!--  <div>
                                                             <label style="font-weight:500">
                                                                 <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'type', 'id'=>'type-5', 'value'=>'5', 'checked'=>((isset($transactions['type']) && (int)$transactions['type'] == 5) ? 'checked' : FALSE))); ?>
                                                               <span><?php echo lang('admin trans external'); ?></span>
                                                             </label>
-                                                        </div>
+                                                        </div> -->
                                                      </div>
 
 
@@ -84,14 +84,46 @@
                                                         <?php echo form_label(lang('admin trans sender'), 'sender', array('class'=>'control-label')); ?>
                                                         <span class="required">*</span>
                                                         <?php echo form_input(array('name'=>'sender', 'value'=>set_value('sender', (isset($transactions['sender']) ? $transactions['sender'] : '')), 'class'=>'form-control underlined')); ?>
+                                                        <?php 
+                                                            if($transactions['type']=='3'){?>
+                                                                <?php echo form_label(lang('admin trans receiver_fname'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'sender_name','disabled'=>true, 'value'=>set_value('sender', (isset($sender['first_name']) ? $sender['first_name'] : '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_lname'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_lname','disabled'=>true, 'value'=>set_value('sender_lname', (isset($sender['last_name']) ? $sender['last_name'] : '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_email'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'email','disabled'=>true, 'value'=>set_value('sender_email', (isset($sender['email']) ? $sender['email']: '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_phone'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'sender_phone','disabled'=>true, 'value'=>set_value('sender_phone', (isset($sender['phone']) ? $sender['phone']: '')), 'class'=>'form-control underlined')); ?>
+                                                        <?php }
+                                                        ?>
+                                                        
                                                       </div>
 
-                                                      <?php // sender ?>
+                                                      <?php // receiver ?>
                                                       <div class="form-group col-sm-4<?php echo form_error('receiver') ? ' has-error' : ''; ?>">
                                                         <?php echo form_label(lang('admin trans receiver'), 'receiver', array('class'=>'control-label')); ?>
                                                         <span class="required">*</span>
                                                         <?php echo form_input(array('name'=>'receiver', 'value'=>set_value('receiver', (isset($transactions['receiver']) ? $transactions['receiver'] : '')), 'class'=>'form-control underlined')); ?>
+                                                        <?php 
+                                                            if($transactions['type']=='3'){?>
+                                                                <?php echo form_label(lang('admin trans receiver_fname'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_name','disabled'=>true, 'value'=>set_value('receiver_name', (isset($receiver['first_name']) ? $receiver['first_name'] : '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_lname'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_lname','disabled'=>true, 'value'=>set_value('receiver_lname', (isset($receiver['last_name']) ? $receiver['last_name'] : '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_address'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_address','disabled'=>true, 'value'=>set_value('receiver_address', (isset($receiver['address1']) ? $receiver['address1'].', '.$receiver['address2'].', '. $receiver['city'].', '. $receiver['state']  : '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_acount_number'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_account','disabled'=>true, 'value'=>set_value('acount_number', (isset($receiver['account_number']) ? $receiver['account_number']: '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_bank_code'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_bank_code','disabled'=>true, 'value'=>set_value('bank_code', (isset($receiver['bank_code']) ? $receiver['bank_code']: '')), 'class'=>'form-control underlined')); ?>
+                                                                <?php echo form_label(lang('admin trans receiver_phone'), 'receiver', array('class'=>'control-label')); ?>
+                                                                <?php echo form_input(array('name'=>'receiver_phone','disabled'=>true, 'value'=>set_value('phone', (isset($receiver['phone']) ? $receiver['phone']: '')), 'class'=>'form-control underlined')); ?>
+                                                        <?php }
+                                                        ?>
                                                       </div>
+                                                      <?php // receiver name ?>
+                                                      
+                                                     
 
                                                       <?php // time ?>
                                                       <div class="form-group col-sm-9<?php echo form_error('time') ? ' has-error' : ''; ?>">

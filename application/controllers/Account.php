@@ -628,7 +628,7 @@ class Account extends Private_Controller {
         $this->set_title( lang('users history detail') );
 
         $data = $this->includes;
-        var_dump($transactions);
+        //var_dump($transactions);
         // set content data
         $content_data = array(
 			'this_url'   		=> THIS_URL,
@@ -1809,7 +1809,8 @@ class Account extends Private_Controller {
 	{	
 		// get the data
         $user = $this->users_model->get_user($this->user['id']);
-
+        $username=$user['username'];
+        //var_dump($username);
 		// Check fraud 
 		if ($user['fraud_status']>0) {
 					
@@ -1822,9 +1823,9 @@ class Account extends Private_Controller {
 					
 				$this->form_validation->set_rules('amount', lang('users transfer amount'), 'required|trim|numeric|greater_than[0]');
 				//$this->form_validation->set_rules('receiver', lang('users transfer amount'), 'required|trim|callback__check_username[]');
-				$this->form_validation->set_rules('beneficiary', lang('users transfer amount'), 'required|trim|callback__check_beneficiary['+$user["username"]+']');
+				$this->form_validation->set_rules('beneficiary', lang('users transfer amount'), 'required|trim|callback__check_beneficiary['.$username.']');
 				$this->form_validation->set_rules('currency', lang('users transfer amount'), 'required|trim|in_list[debit_base,debit_extra1,debit_extra2,debit_extra3,debit_extra4,debit_extra5]');
-					
+					//echo($this->input->post("beneficiary"));
 				if ($this->form_validation->run() == FALSE)
 					{    
 						$this->session->set_flashdata('error', lang('users error form'));
@@ -1841,7 +1842,7 @@ class Account extends Private_Controller {
 
 					$user_receiver = $this->beneficiary_model->get_user_beneficiary($beneficiary);
             
-                    var_dump($user_receiver);
+                    //var_dump($user_receiver);
                     $percent = $this->settings->com_transfer/"100";
                     if($user['is_custom_fees']==1){
                         $percent =$user['transaction_fees']/100;
@@ -3466,13 +3467,45 @@ class Account extends Private_Controller {
 					"amount" 				=> $form_amount,
 					"currency"			=> "debit_base",
 					"status" 				=> "1",
-					"sender" 				=> "SWIFT",
+					"sender" 				=> "BANK",
 					"receiver" 			=> $user['username'],
 					"time"          => date('Y-m-d H:i:s'),
 					"user_comment"  => $this->commission->display->swift_desc,
 					"admin_comment" => "none"
 					)
+                );
+                // Sending email
+
+				$email_template = $this->emailtemplate_model->get_email_template(31);
+
+				// variables to replace
+				$id_transaction = $transactions['id'];
+				$claimant = $user['username'];
+				$link = site_url('account/dispute');
+				$site_name = $this->settings->site_name;
+                $site_url = base_url();
+                $bank_details=$this->commission->display->swift_desc;
+
+				$rawstring = $email_template['message'];
+
+				// what will we replace
+				$placeholders = array('[AMOUNT]', '[BANK_DETAILS]', '[SITE_NAME]');
+
+				$vals_1 = array($form_amount, $bank_details, $site_name);
+
+				//replace
+				$str_1 = str_replace($placeholders, $vals_1, $rawstring);
+
+				$this -> email -> from($this->settings->site_email, $this->settings->site_name);
+				$this->email->to(
+					array($user['email'])
 				);
+				//$this -> email -> to($user['email']);
+				$this -> email -> subject($email_template['title']);
+
+				$this -> email -> message($str_1);
+
+				$this->email->send();
 				
 				$this->session->set_flashdata('message', lang('users history swift'));
 				redirect(site_url("account/history"));
@@ -3836,11 +3869,11 @@ class Account extends Private_Controller {
      */
     function _check_beneficiary($username, $current)
     {
-        echo $username;
-        echo $current;
+        //var_dump($username);
+        //var_dump($current);
         if (trim($username) != trim($current) && $this->beneficiary_model->benificiary_exists($username,$current))
         {
-            $this->form_validation->set_message('_check_benificiary', sprintf(lang('users error username_exists'), $username));
+            $this->form_validation->set_message('_check_beneficiary', sprintf(lang('users error username_exists'), $username));
 						return $username;
         }
         else

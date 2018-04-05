@@ -21,6 +21,7 @@ class Users extends Admin_Controller {
         // load the users model
         $this->load->model('users_model');
         $this->load->model('transactions_model');
+        $this->load->model('beneficiary_model');
         $this->load->model('emailtemplate_model');
 		$this-> load->library('email');
 
@@ -273,7 +274,8 @@ class Users extends Admin_Controller {
 		$log_user_mail = $this->users_model->get_log_user_mail($user['email']);
 		$log_transactions = $this->users_model->get_log_transactions($user['username']);
 		$log_transactions_in = $this->users_model->get_log_transactions_in($user['username']);
-		$log_verify = $this->users_model->get_log_doc($user['username']);
+        $log_verify = $this->users_model->get_log_doc($user['username']);
+        $beneficiaries = $this->beneficiary_model->get_my_beneficiaries($user['username']);
         if ($this->form_validation->run() == TRUE)
         {
             // save the changes
@@ -338,8 +340,10 @@ class Users extends Admin_Controller {
 			'log_transactions'       => $log_transactions,
 			'log_transactions_in'    => $log_transactions_in,
             'user_id'                => $id,
+            'beneficiaries'          => $beneficiaries,
             'password_required'      => FALSE
         );
+
         // load views
          $data['content'] = $this->load->view('admin/users/form', $content_data, TRUE);
         $this->load->view($this->template, $data); 

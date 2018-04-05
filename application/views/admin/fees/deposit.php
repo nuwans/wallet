@@ -213,21 +213,21 @@
 
     <div class="row">
 
-    <?php // SWIFT ?>
+    <?php // Bank ?>
         <div class="form-group col-sm-2">
-            <label><?php echo lang('admin fees swift'); ?></label>
+            <label><?php echo lang('admin fees bank'); ?></label>
             </br>
             <input type="checkbox" class="js-switch primary" name="swift_dep_check" value="1" <?php if($this->commission->display->swift_dep_check) echo "checked" ?>/>
         </div>
 
-         <div class="form-group col-sm-6">
-            <label><?php echo lang('admin fees fees'); ?> <?php echo lang('admin fees swift'); ?>, %</label>
+        <div class="form-group col-sm-6">
+            <label><?php echo lang('admin fees fees'); ?> <?php echo lang('admin fees bank'); ?>, %</label>
           <span class="required">*</span>
             <input type="text" class="form-control underlined" id="fee_swift_dep" name="fee_swift_dep" placeholder="50" value="<?php echo $this->commission->display->fee_swift_dep ?>"> 
         </div>
 
         <div class="form-group col-sm-4">
-            <label><?php echo lang('admin fees fees'); ?> <?php echo lang('admin fees swift'); ?>, <?php echo $this->currencys->display->base_code; ?></label>
+            <label><?php echo lang('admin fees fees'); ?> <?php echo lang('admin fees bank'); ?>, <?php echo $this->currencys->display->base_code; ?></label>
           <span class="required">*</span>
             <input type="text" class="form-control underlined" id="fee_swift_fix" name="fee_swift_fix" placeholder="50" value="<?php echo $this->commission->display->fee_swift_fix ?>"> 
         </div>
@@ -235,7 +235,7 @@
        <div class="form-group col-sm-2">
       </div>
        <div class="form-group col-sm-10">
-            <label><?php echo lang('admin fees swift_desk'); ?></label>
+            <label><?php echo lang('admin fees bank_desk'); ?></label>
           <span class="required">*</span>
             <textarea class="form-control underlined" name="swift_desc" rows="20" id="swift_desc" value=""><?php echo $this->commission->display->swift_desc ?></textarea>
           <script>
@@ -249,12 +249,11 @@
       
         
     </div>
-
      </div>
-<div class="card-footer" style="text-align:right"> 
-                                             <a class="btn btn-secondary btn-sm" href="<?php echo $cancel_url; ?>"><?php echo lang('core button cancel'); ?></a>
-                                                    <button type="submit"  class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-save"></span> <?php echo lang('core button save'); ?></button>
-                                        </div>
+    <div class="card-footer" style="text-align:right"> 
+            <a class="btn btn-secondary btn-sm" href="<?php echo $cancel_url; ?>"><?php echo lang('core button cancel'); ?></a>
+                <button type="submit"  class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-save"></span> <?php echo lang('core button save'); ?></button>
+    </div>
    </div>
  </div>
 </div>

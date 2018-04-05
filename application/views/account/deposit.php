@@ -85,9 +85,9 @@
                   <div class="col-md-4 col-xs-6">
                     <div class="radio-card">
                       <div class="fee"><?php echo $this->commission->display->fee_swift_dep ?>% + <?php echo $this->commission->display->fee_swift_fix ?> <?php echo $this->currencys->display->base_code ?></div>
-                      <input type="radio" class="planes-radio" name="method" value="swift" id="7"/>
+                      <input type="radio" class="planes-radio" name="method" value="bank" id="7"/>
                       <label for="7" id="7">
-                        <span class="card-title"><img class="img-responsive" src="<?php echo base_url();?>themes/private/img/pay/swift.png" alt=""></span>
+                        <span class="card-title"><img class="img-responsive" src="<?php echo base_url();?>themes/private/img/pay/bank.png" alt=""></span>
                       </label>
                     </div>
                   </div>
@@ -201,7 +201,7 @@
 				<?php endif; ?>
 						
 				<?php if($this->commission->display->swift_dep_check) : ?>
-					<?php echo form_open(site_url("account/start_swift/"), array("id" => "swift")) ?>
+					<?php echo form_open(site_url("account/start_swift/"), array("id" => "bank")) ?>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

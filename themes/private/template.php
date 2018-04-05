@@ -117,6 +117,10 @@
 								<?php echo lang('users menu dashboard'); ?>
 								<i class="icon-home icons pull-right"></i>
 							</a>
+                            <a href="<?php echo base_url('/account/beneficiaries'); ?>" class="list-group-item <?php echo (uri_string() == 'account/beneficiaries') ? 'active' : ''; ?>">
+								<?php echo lang('users menu benificiary'); ?>
+								<i class="icon-people icons pull-right"></i>
+							</a>
 							<a href="<?php echo base_url('/account/money_transfer'); ?>" class="list-group-item <?php echo (uri_string() == 'account/money_transfer') ? 'active' : ''; ?>">
 								<?php echo lang('users menu transfer'); ?>
 								<i class="icon-paper-plane icons pull-right"></i>
@@ -153,10 +157,7 @@
 								<?php echo lang('users menu settings'); ?>
 								<i class="icon-wrench icons pull-right"></i>
 							</a>
-							<a href="<?php echo base_url('/account/beneficiaries'); ?>" class="list-group-item <?php echo (uri_string() == 'account/beneficiaries') ? 'active' : ''; ?>">
-								<?php echo lang('users menu benificiary'); ?>
-								<i class="icon-people icons pull-right"></i>
-							</a>
+							
 
 						</div>
 

@@ -32,7 +32,8 @@ class Dashboard extends Admin_Controller {
 		$total_users = $this->users_model->get_total_users();
 		$total_transactions = $this->transactions_model->get_total_transactions();
 		$total_disputes = $this->disputes_model->get_total_disputes();
-			
+        $limit_dep ="0";	
+        $limit_sci="0";
 		if($this->commission->display->check_btc_dep) {
 			
 			// ################################### Get Current Price BTC ######################################## //
@@ -53,7 +54,7 @@ class Dashboard extends Admin_Controller {
 			$response = curl_exec($ch);
 			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$response = json_decode($response, true);
-
+            
 			if ($httpCode == 200) {
 				$limit_dep = $response['gap'];
 			} else {

@@ -14,6 +14,7 @@
           <li class="nav-item"> <a class="nav-link" href="#all" role="tab" data-toggle="tab"><?php echo lang('admin input all_transactions'); ?></a></li>
           <li class="nav-item"> <a class="nav-link" href="#logs" role="tab" data-toggle="tab"><?php echo lang('admin input login_history'); ?></a></li>
           <li class="nav-item"> <a class="nav-link" href="#doc" role="tab" data-toggle="tab"><?php echo lang('admin input document'); ?></a></li>
+          <li class="nav-item"> <a class="nav-link" href="#beneficiaries" role="tab" data-toggle="tab"><?php echo lang('admin input beneficiary'); ?></a></li>
        </ul>
      </div>
      <div class="card-block">
@@ -679,6 +680,50 @@
                 </div>
                 <div class="text-center">
                   <a href="/admin/transactions?sort=id&dir=desc&limit=10&offset=0&receiver=<?php echo set_value('username', (isset($user['username']) ? $user['username'] : '')); ?>" target="_blank" class="btn btn-primary btn-sm"><i class="icon-eye icons"></i> <?php echo lang('admin log see_trans_in'); ?></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="beneficiaries">
+            <div class="row">
+              <div class="col-md-12">
+                <h5><?php echo lang('admin log beneficiaries'); ?></h5>
+                <br>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <th><?php echo lang('admin trans id'); ?></th>
+                      <th><?php echo lang('admin trans receiver_fname'); ?></th>
+                      <th><?php echo lang('admin trans receiver_lname'); ?></th>
+                      <th><?php echo lang('admin trans receiver_address1'); ?></th>
+                      <th><?php echo lang('admin trans receiver_address2'); ?></th>
+                      <th><?php echo lang('admin trans city'); ?></th>
+                      <th><?php echo lang('admin trans state'); ?></th>
+                      <th><?php echo lang('admin trans receiver_phone'); ?></th>
+                      <th><?php echo lang('admin trans receiver_acount_number'); ?></th>
+                      <th><?php echo lang('admin trans receiver_bank_code'); ?></th>
+                    </thead>
+                    <tbody>
+                      <?php foreach($beneficiaries as $view) : ?>
+                      <tr>
+                         <td><?php echo $view['id'] ?></td>
+                         <td><?php echo $view['first_name'] ?></td>
+                         <td><?php echo $view['last_name'] ?></td>
+                         <td><?php echo $view['address1'] ?></td>
+                         <td><?php echo $view['address2'] ?></td>
+                         <td><?php echo $view['city'] ?></td>
+                         <td><?php echo $view['state'] ?></td>
+                         <td><?php echo $view['phone'] ?></td>
+                         <td><?php echo $view['account_number'] ?></td>
+                         <td><?php echo $view['bank_code'] ?></td>
+                         <td class="text-center">
+                           <a href="../../beneficiaries/edit/<?php echo $view['id']?>" class="btn btn-down btn-primary"><i class="icon-eye icons"></i></a> 
+                         </td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
