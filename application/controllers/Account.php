@@ -25,7 +25,8 @@ class Account extends Private_Controller {
 		$this->load->model('merchants_model');
 		$this->load->model('vouchers_model');
 		$this->load->model('beneficiary_model');
-		$this->lang->load('currency');
+        $this->lang->load('currency');
+        $this->load->model("currencys_model");
 		$this->load->library('commission');
 		$this->load->library('email');
 			
@@ -1776,6 +1777,7 @@ class Account extends Private_Controller {
 		// reload the new user data and store in session
         $user = $this->users_model->get_user($this->user['id']);
         $beneficiaries = $this->beneficiary_model->get_my_beneficiaries($this->user['username']);
+        $currencys=$this->currencys_model->get_currencys();
         $percent = $this->settings->com_transfer;
         if($user['is_custom_fees']==1){
             $percent =$user['transaction_fees'];
@@ -3470,7 +3472,7 @@ class Account extends Private_Controller {
 					"sender" 				=> "BANK",
 					"receiver" 			=> $user['username'],
 					"time"          => date('Y-m-d H:i:s'),
-					"user_comment"  => $this->commission->display->swift_desc,
+					"user_comment"  => "",
 					"admin_comment" => "none"
 					)
                 );
@@ -3702,7 +3704,7 @@ class Account extends Private_Controller {
 					)
 				);
 
-				$this->session->set_flashdata('message', lang('users tickets success_new'));
+				$this->session->set_flashdata('message', lang('users beneficiary success_new'));
 				redirect(site_url('account/beneficiaries'));
 			}
 			

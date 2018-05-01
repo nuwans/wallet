@@ -1,7 +1,24 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="landing">
         <div class="container">
-				<div class="row">
+        <div class="row">
+				</div>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+				<!-- <div class="row">
 					<div class="col-md-12">
 						<h1 class="text-center"><?php echo lang('core main welcome'); ?></h1>
 						<h4 class="text-center"><?php echo lang('core main get_money'); ?></h4>
@@ -20,7 +37,7 @@
 						<h2 class="text-center"><strong>140+</strong></h2>
 						<h3 class="text-center"><?php echo lang('core main contry'); ?></h3>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 </div>

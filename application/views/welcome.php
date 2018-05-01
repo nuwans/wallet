@@ -2,13 +2,30 @@
 
 <div class="landing">
 			<div class="container">
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-md-12">
 						<h1 class="text-center"><?php echo lang('core main welcome'); ?></h1>
 						<h4 class="text-center"><?php echo lang('core main get_money'); ?></h4>
 					</div>
+                </div> -->
+                <div class="row">
 				</div>
-				<div class="row hidden-xs hidden-sm">
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+				<!-- <div class="row hidden-xs hidden-sm">
 					<div class="col-md-4 padding-20">
 						<h2 class="text-center"><strong>10000+</strong></h2>
 						<h3 class="text-center"><?php echo lang('core main transactions'); ?></h3>
@@ -21,7 +38,7 @@
 						<h2 class="text-center"><strong>140+</strong></h2>
 						<h3 class="text-center"><?php echo lang('core main contry'); ?></h3>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-md-12 padding-20 text-center">
 						<a href="<?php echo base_url('user/register'); ?>" class="btn btn-success btn-lg text-center"><?php echo lang('core main open_new'); ?></a> <?php echo lang('core main or'); ?> <a href="<?php echo base_url('user/login'); ?>" class="btn btn-line btn-lg text-center"><?php echo lang('core main login_now'); ?></a>

@@ -100,8 +100,8 @@
     color: #fff;
 }
 .footer {
-    color: #828282;
-    background-color: #2c2b29;
+    color: #383838;
+    background-color: #ffe202;
     margin-top: 50px;
 }
 .footer a {
@@ -114,8 +114,15 @@
 .footer .list-group {
     margin-top: 15px;
 }
+.footer .footer_image{
+    width: 200px;
+}
+.footer_image img{
+    width: 100%;
+}
 .footer .list-group-item {
-    background-color: #2c2b29;
+    background-color: #ffe202;
+    color: #383838;
     border: none;
 }
 .footer .form-control {
@@ -403,3 +410,5 @@ legend {
     transform: scale(1);
   }
 }
+
+

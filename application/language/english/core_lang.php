@@ -79,6 +79,9 @@ $lang['core menu resolution']             = "Resolution center";
 $lang['core menu verifi']                 = "Verification";
 $lang['core menu settings']               = "Account settings";
 $lang['core menu terms']                  = "Terms of agreement";
+$lang['core menu terms_des']              = "Bangash Financial Service";
+$lang['core menu aus']              = "Australia";
+$lang['core menu terms_des1']              = "Design/Hosted by Techvisor AuForex , Send Money Overseas";
 $lang['core menu privacy']                = "Privacy policy";
 $lang['core menu lang']                   = "Language";
 

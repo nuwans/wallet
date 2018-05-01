@@ -91,7 +91,7 @@
 					<div class="col-md-3 col-sm-6 col-xs-5 hidden-print">
 						<div class="btn-group pull-right">
 							<a href="<?php echo base_url('/account/deposit'); ?>" class="btn btn-line btn-lg"><?php echo lang('users dashboard deposit'); ?></a>
-							<a href="<?php echo base_url('/account/withdrawal'); ?>" class="btn btn-line btn-lg"><?php echo lang('users dashboard withdrawal'); ?></a>
+							<a href="<?php echo base_url('/account/money_transfer'); ?>" class="btn btn-line btn-lg"><?php echo lang('users dashboard transfer'); ?></a>
 						</div>
 					</div>
 				</div>
@@ -127,10 +127,10 @@
 								<?php echo lang('users menu transfer'); ?>
 								<i class="icon-paper-plane icons pull-right"></i>
 							</a>
-							<a href="<?php echo base_url('/account/exchange'); ?>" class="list-group-item <?php echo (uri_string() == 'account/exchange') ? 'active' : ''; ?>">
+							<!-- <a href="<?php echo base_url('/account/exchange'); ?>" class="list-group-item <?php echo (uri_string() == 'account/exchange') ? 'active' : ''; ?>">
 								<?php echo lang('users menu exchange'); ?>
 								<i class="icon-calculator icons pull-right"></i>
-							</a>
+							</a> -->
 							<a href="<?php echo base_url('/account/history'); ?>" class="list-group-item <?php echo (uri_string() == 'account/history') ? 'active' : ''; ?>">
 								<?php echo lang('users menu history'); ?>
 								<i class="icon-hourglass icons pull-right"></i>
@@ -200,7 +200,7 @@
     <?php // Footer ?>
     <footer>
 			<div class="footer hidden-print">
-        <div class="container">
+        <div class="container high">
 					<div class="row">
 						<div class="col-md-3">
 							<ul class="list-group">
@@ -208,61 +208,21 @@
 								<li class="list-group-item text-white"><i class="icon-envelope-letter icons"></i> <?php echo $this->settings->site_email; ?></li>
 								<li class="list-group-item text-white"><i class="icon-social-skype icons"></i> <?php echo $this->settings->site_skype; ?></li>
 							</ul>
-							<span class="dropdown dropup">
-                            <button id="session-language" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-footer">
-                               <i class="icon-globe icons"></i> <?php echo lang('core menu lang'); ?>
-                                <span class="caret"></span>
-                            </button>
-                            <ul id="session-language-dropdown" class="dropdown-menu" role="menu" aria-labelledby="session-language">
-                                <?php foreach ($this->languages as $key=>$name) : ?>
-                                    <li>
-                                        <a href="#" rel="<?php echo $key; ?>">
-                                            <?php if ($key == $this->session->language) : ?>
-                                                <i class="fa fa-check selected-session-language"></i>
-                                            <?php endif; ?>
-                                            <?php echo $name; ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </span>
-						</div>
-						<div class="col-md-3">
-							<ul class="list-group">
-								<li class="list-group-item text-white"><strong><?php echo lang('core menu support'); ?></strong></li>
-								<li class="list-group-item"><a href="<?php echo base_url('faq'); ?>"><?php echo lang('core menu faq'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('contact'); ?>"><?php echo lang('core menu feedback'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/support'); ?>"><?php echo lang('core menu ticket'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('developers'); ?>"><?php echo lang('core menu api_doc'); ?></a></li>
-							</ul>
-						</div>
-						<div class="col-md-3">
-							<ul class="list-group">
-								<li class="list-group-item text-white"><strong><?php echo lang('core menu payment'); ?></strong></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/money_transfer'); ?>"><?php echo lang('core menu transfer'); ?></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/exchange'); ?>"><?php echo lang('core menu excnage'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/request'); ?>"><?php echo lang('core menu request'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/merchants'); ?>"><?php echo lang('core menu acceptance'); ?></a></li>
-							</ul>
-						</div>
-						<div class="col-md-3">
-							<ul class="list-group">
-								<li class="list-group-item text-white"><strong><?php echo lang('core menu my_acc'); ?></strong></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/history'); ?>"><?php echo lang('core menu history'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/dispute'); ?>"><?php echo lang('core menu resolution'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/identification'); ?>"><?php echo lang('core menu verifi'); ?></a></li>
-								<li class="list-group-item"><a href="<?php echo base_url('/account/user_settings'); ?>"><?php echo lang('core menu settings'); ?></a></li>
-							</ul>
+							
 						</div>
 					</div>
 				</div>
         <hr>
-				<div class="container">
-            <p class="text-muted text-center">
-             <a href="<?php echo base_url('agreement'); ?>"><?php echo lang('core menu terms'); ?></a> | <a href="<?php echo base_url('privacy'); ?>" ><?php echo lang('core menu privacy'); ?></a>
-            </p>
-        </div>
-			</div>
+		<div class="container">
+                <div class="footer_image">
+                    <img  src="<?php echo base_url();?>themes/default/img/logo-white.png" alt="<?php echo $this->settings->site_name; ?>">
+                </div>
+            
+                <p class="text-left">
+                <?php echo lang('core menu terms_des'); ?> | <?php echo lang('core menu terms_des1'); ?>
+                </p>
+            </div>
+		</div>
     </footer>
 
     <?php // Javascript files ?>

@@ -26,7 +26,7 @@
       </div>
       <div class="col-md-10">
         <h4><?php echo lang('users dashboard danger_verif_title'); ?></h4>
-        <p><?php echo lang('users dashboard danger_verif_text'); ?></p>
+       <!--  <p><?php echo lang('users dashboard danger_verif_text'); ?></p> -->
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="col-md-10">
         <h4><?php echo lang('users dashboard warning_verif_title'); ?></h4>
-        <p><?php echo lang('users dashboard warning_verif_text'); ?></p>
+        <!-- <p><?php echo lang('users dashboard warning_verif_text'); ?></p> -->
       </div>
     </div>
   </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="col-md-10">
         <h4><?php echo lang('users dashboard info_verif_title'); ?></h4>
-        <p><?php echo lang('users dashboard info_verif_text'); ?></p>
+       <!--  <p><?php echo lang('users dashboard info_verif_text'); ?></p> -->
       </div>
     </div>
   </div>

@@ -116,24 +116,24 @@
                   <div class="form-group col-sm-3<?php echo form_error('verifi_status') ? ' has-error' : ''; ?>">
                       <?php echo form_label(lang('admin input verifi_status'), '', array('class'=>'control-label')); ?>
                       <span class="required">*</span>
-                      <div>
+                      <!-- <div>
                           <label style="font-weight:500">
                               <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'verifi_status', 'id'=>'verifi_status-1', 'value'=>'1', 'checked'=>((isset($user['verifi_status']) && (int)$user['verifi_status'] == 1) ? 'checked' : FALSE))); ?>
                               <span><?php echo lang('admin input verifi_ok'); ?></span>
                           </label>
-                      </div>
+                      </div> -->
                       <div>
                           <label style="font-weight:500">
                               <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'verifi_status', 'id'=>'verifi_status-3', 'value'=>'2', 'checked'=>((isset($user['verifi_status']) && (int)$user['verifi_status'] == 2) ? 'checked' : FALSE))); ?>
-                              <span><?php echo lang('admin input business'); ?></span>
+                              <span><?php echo lang('admin input verifi_ok'); ?></span>
                           </label>
                       </div>
-                       <div>
+                      <!--  <div>
                           <label style="font-weight:500">
                               <?php echo form_radio(array('class'=>'radio', 'type'=>'radio', 'name'=>'verifi_status', 'id'=>'verifi_status-4', 'value'=>'3', 'checked'=>((isset($user['verifi_status']) && (int)$user['verifi_status'] == 3) ? 'checked' : FALSE))); ?>
                               <span><?php echo lang('admin input waiting'); ?></span>
                           </label>
-                      </div>
+                      </div> -->
 
                           <div>
                               <label style="font-weight:500">
